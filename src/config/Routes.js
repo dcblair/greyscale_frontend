@@ -23,12 +23,15 @@ const Routes = (props) => (
     <Route path='/about' component={ About } />
     <Route path='/contact' component={ Contact } />
     <Route path='/upload/' component={ Uploads } />
+    <Route path='/Register/' component={ Register } />
     <Route path='/login' render={(routeComponentProps) => {
       return <Login
               {...routeComponentProps}
+              currentUser={ props.currentUser }
+              storeUser={ props.storeUser }
               />
     }} />
-    <PrivateRoute path='/profile' component={ Profile } />
+    <PrivateRoute path='/profile' component={ Profile } currentUser={ props.currentUser }/>
   </Switch>
 )
 

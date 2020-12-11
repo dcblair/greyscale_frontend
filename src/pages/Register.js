@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
-      margin: theme.spacing(1),
+      // margin: theme.spacing(1),
       width: '25ch',
     },
   },
@@ -16,19 +16,15 @@ const useStyles = makeStyles((theme) => ({
 const Register = props => {
   const classes = useStyles();
 
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
+  const [artistName, setArtistName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleName = e => {
-    setName(e.target.value)
+  const handleArtistName = e => {
+    setArtistName(e.target.value)
   }
   
-  const handleUsername = e => {
-    setUsername(e.target.value)
-  }
   const handleEmail = e => {
     setEmail(e.target.value)
   }
@@ -42,10 +38,9 @@ const Register = props => {
   const handleSubmit = e => {
     e.preventDefault()
     if (password === confirmPassword) {
-      UserModel.create({ email, name, username, password })
+      UserModel.create({ artistName, email, password })
         .then(data => {
           console.log('Successful register', data)
-          // redirect to /login
           props.history.push('/login')
         })
     }
@@ -58,28 +53,17 @@ const Register = props => {
       <form className={classes.root} noValidate autoComplete="off" onSubmit={ handleSubmit }>
         <div className="form-group">
           <TextField
-            onChange={ handleName } 
-            value={ name }
+            onChange={ handleArtistName } 
+            value={ artistName }
             type="text" 
-            id="name" 
-            name="name"
-            label="Name" 
+            id="artistName" 
+            name="artist name"
+            label="artist name" 
             variant="filled"
             required
           />
         </div>
-        <div className="form-group">
-          <TextField 
-            onChange={ handleUsername } 
-            value={ username }
-            type="text" 
-            id="username" 
-            name="username" 
-            label="username"
-            variant="filled"
-            required
-          />
-        </div>
+
         <div className="form-group">
           <TextField 
             onChange={ handleEmail } 
@@ -92,6 +76,7 @@ const Register = props => {
             required
           />
         </div>
+
         <div className="form-group">
           <TextField 
             onChange={ handlePassword } 
@@ -116,6 +101,7 @@ const Register = props => {
             required
           />
         </div>
+
         <Button 
           variant="contained" 
           color="primary" 

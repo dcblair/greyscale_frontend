@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button,
-        makeStyles,
         TextField,
         Typography
         } from '@material-ui/core';
-import UserModel from '../models/user'
+import { makeStyles } from '@material-ui/core/styles';
+import UserModel from '../models/user';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Login = (props) => {
+const Login = props => {
   const classes = useStyles();
 
   const [email, setEmail] = useState('')
@@ -31,24 +31,26 @@ const Login = (props) => {
     setPassword(e.target.value)
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = event => {
+    event.preventDefault()
+    
+    UserModel.login({
+      email,
+      password
+    }).then(data => {
+      if(!data.user) {
+        console.log('Login unsuccessful')
+        return false
+      }
+      props.storeUser(data.user)
+      props.storeArtistName(data.artistName)
+      console.log(data.user, data.artistName)
+      })
+      .catch(err => console.log('Login error', err))
   }
 
-  UserModel.login({
-    email,
-    password
-  }).then(data => {
-    if(!data.user) {
-      console.log('Login unsuccessful')
-      return false
-    }
-    props.storeUser(data.user)
-    props.storeArtistName(data.artistName)
-  })
-  .catch(err => console.log('Login error', err))
 
-  if (props.currentUser) return <Redirect to='/profile' />
+  if (props.currentUser) return <Redirect to='/' />
 
   return (
     <div>

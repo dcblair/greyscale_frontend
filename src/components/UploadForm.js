@@ -1,10 +1,17 @@
-import { Button, Typography } from '@material-ui/core';
+import { Button,
+        Grid,
+        Switch,
+        TextField,
+        Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 
 const UploadForm = () => {
+  const [name, setName] = useState('')
   const [artwork, setArtwork] = useState('')
+  const [artist, setArtist] = useState('')
   const [music, setMusic] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isPublic, setIsPublic] = useState(true)
 
   const uploadArtwork = async () => {
     const files = artwork
@@ -56,12 +63,36 @@ const UploadForm = () => {
     if(music && artwork) {
       uploadMusic()
       uploadArtwork()
+    } else {
+      console.log("Please make sure all fields are full and files are uploaded.")
     }
   }
 
   return (
     <div>
       <form action="">
+        <div aria-label="Entry title textfield">
+          <TextField 
+            id="outlined-basic" 
+            label="track name"
+            type="text"
+            value={name} 
+            onInput={ e => setName(e.target.value)}
+            variant="outlined" 
+          />
+        </div>
+
+        <div aria-label="genre">
+          <TextField
+            id="outlined-multiline-static"
+            label="artist name"
+            value={artist}
+            type="text"
+            onInput={ e => setArtist(e.target.value)}
+            variant="outlined"
+          />
+        </div>
+
         <Typography variant="body1">music file</Typography>
         <input 
           type="file"
@@ -69,6 +100,7 @@ const UploadForm = () => {
           placeholder="upload music"
           onChange={e => {setMusic(e.target.files)} }
         />
+
         <Typography variant="body1">album artwork</Typography>
         <input
           type="file"
@@ -76,6 +108,27 @@ const UploadForm = () => {
           placeholder="upload album artwork"
           onChange={e => {setArtwork(e.target.files)} }
         />
+
+        <Grid>
+          <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item>Private</Grid>
+            <Grid item>
+              <Switch
+                checked={isPublic}
+                onChange={() => setIsPublic(!isPublic)}
+                color="primary"
+                name="privacy"
+                label="publicOrPrivate"
+              />
+            </Grid>
+            <Grid item> Public</Grid>
+          </Grid>
+        </Grid>
         <Button
           onClick={ handleSubmit }
         >

@@ -1,50 +1,50 @@
 
 class UploadModel {
-  // show all entries
+  // show all uploads
   static all = () => {
-    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/entry`).then(res => res.json())
+    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload`).then(res => res.json())
   }
 
-  // show entry
-  static show = (entryId) => {
-    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/entry/${entryId}`).then(res => res.json())
+  // show upload
+  static show = (uploadId) => {
+    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload/${uploadId}`).then(res => res.json())
   }
   
-  // show user entries
+  // show user uploads
   static user = (userId) => {
-    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/entry/user/${userId}`).then(res => res.json())
+    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload/user/${userId}`).then(res => res.json())
   }
   
-  // create an entry
-  static create = (entryData) => {
-    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/entry/create`, {
+  // create an upload
+  static create = (uploadData) => {
+    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload/create`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(entryData)
+      body: JSON.stringify(uploadData)
     }).then(res => res.json())
   }
 
-// update an entry
-  static update = (entry, entryId) => {
-    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/entry/${entryId}`, {
+// update an upload
+  static update = (upload, uploadId) => {
+    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload/${uploadId}`, {
       method: 'PUT',
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(entry)
+      body: JSON.stringify(upload)
     }).then(res => res.json())
   }
 
-  // delete an entry
-  static delete = (entry, entryId) => {
-    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/entry/${entryId}`, {
+  // delete an upload
+  static delete = (upload, uploadId) => {
+    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload/${uploadId}`, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(entry)
+      body: JSON.stringify(upload)
     }).then(res => res.json())
   }
 }
