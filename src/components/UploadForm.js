@@ -21,7 +21,7 @@ const UploadForm = () => {
     data.append('upload_preset', 'greyscale_album')
     setLoading(true)
     const res = await fetch(
-      "https://api.cloudinary.com/v1_1/girielyims/image/upload",
+      `${process.env.REACT_APP_CLOUDINARY_URL}/image/upload`,
       {
         method: 'POST',
         body: data
@@ -41,7 +41,8 @@ const UploadForm = () => {
     data.append('upload_preset', 'greyscale_music')
     setLoading(true)
     const res = await fetch(
-      "https://api.cloudinary.com/v1_1/girielyims/raw/upload",
+      `${process.env.REACT_APP_CLOUDINARY_URL}/raw/upload`,
+
       {
         method: 'POST',
         body: data
