@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import PromptModel from '../models/prompt';
+import UploadModel from '../models/upload';
 
-const Upload = () => {
+const Uploads = () => {
   const [Upload, setUpload] = useState([])
 
 
@@ -18,4 +18,4 @@ const Upload = () => {
   )
 }
 
-export default Upload
+export default Uploads

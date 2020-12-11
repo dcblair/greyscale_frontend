@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Typography } from '@material-ui/core';
+import { Button,
+        makeStyles,
+        TextField,
+        Typography
+        } from '@material-ui/core';
 import UserModel from '../models/user'
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
 
-const Login = () => {
-  
+
+const Login = (props) => {
+  const classes = useStyles();
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
