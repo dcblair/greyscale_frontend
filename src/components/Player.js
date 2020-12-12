@@ -8,8 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import UploadModel from '../models/upload';
+import { Grid, Input, Slider } from '@material-ui/core';
+import { VolumeUp } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,21 +48,43 @@ const Player = () => {
   const [upload, setUpload] = useState('');
   const [loadMusic, setLoadMusic] = useState('');
   const [loadNext, setLoadNext] = useState('');
+  const [value, setValue] = useState(70);
+  const [number, setNumber] = useState(9);
+
+  const num = Math.floor(Math.random(upload))
+
+  const handleSliderChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleInputChange = (event) => {
+    setValue(event.target.value === '' ? '' : Number(event.target.value));
+  };
+
+  const handleBlur = () => {
+    if (value < 0) {
+      setValue(0);
+    } else if (value > 100) {
+      setValue(100);
+    }
+  };
+
 
   useEffect(() =>{
-    UploadModel.show(1)
+    UploadModel.show(number)
       .then(data => setUpload(data.upload))
-  }, [1])
+  }, [number])
+
+  let audio = new Audio(upload.music)
 
   const handlePlay = () => {
+    audio.play()
     setIsPaused(!isPaused)
-    isPaused ? (
-      stopMusic()
-    ): (
-      playMusic()
-    )
   }
-
+  
+  const handlePause = () => {
+    audio.pause();
+  }
 
 
   const stopMusic = () => {
@@ -88,19 +113,65 @@ const Player = () => {
           <IconButton 
             aria-label="play/pause"
             onClick={ handlePlay }
+            checked={ isPaused }
             >
-            <PlayArrowIcon className={classes.playIcon} />
+            { isPaused ? (
+              <PlayArrowIcon
+                fontSize="small"
+                className={ classes.playIcon } 
+              />
+            ) : (
+              <PauseIcon
+                onClick={ handlePause }
+                fontSize="large"
+                className={ classes.pauseIcon } 
+              />
+            )
+            }
           </IconButton>
           <IconButton aria-label="next">
-            {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
+            { theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
           </IconButton>
         </div>
       </div>
-      <CardMedia
-        className={classes.cover}
-        image={upload.artwork}
-        // title={upload.title}
-      />
+        <CardMedia
+          className={ classes.cover }
+          image={ upload.artwork }
+          title={ upload.artwork }
+        />
+    <div>
+      <Typography id="input-slider" gutterBottom>
+        Volume
+      </Typography>
+      <Grid container spacing={2} alignItems="center">
+        <Grid item>
+          <VolumeUp />
+        </Grid>
+        <Grid item xs>
+          <Slider
+            value={typeof value === 'number' ? value : 0}
+            onChange={ handleSliderChange }
+            aria-labelledby="input-slider"
+          />
+        </Grid>
+        <Grid item>
+          <Input
+            className={classes.input}
+            value={value}
+            margin="dense"
+            onChange={ handleInputChange }
+            onBlur={ handleBlur }
+            inputProps={{
+              step: 10,
+              min: 0,
+              max: 100,
+              type: 'number',
+              'aria-labelledby': 'input-slider',
+            }}
+          />
+        </Grid>
+      </Grid>
+    </div>
     </Card>
   );
 }
