@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -40,9 +40,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Player = () => {
+const Player = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const Ref = useRef();
 
   const [isPaused, setIsPaused] = useState(true);
   const [upload, setUpload] = useState('');
@@ -57,8 +58,8 @@ const Player = () => {
     setValue(newValue);
   };
 
-  const handleInputChange = (event) => {
-    setValue(event.target.value === '' ? '' : Number(event.target.value));
+  const handleInputChange = (e) => {
+    setValue(e.target.value === '' ? '' : Number(e.target.value));
   };
 
   const handleBlur = () => {
@@ -71,27 +72,31 @@ const Player = () => {
 
 
   useEffect(() =>{
-    UploadModel.show(number)
-      .then(data => setUpload(data.upload))
+      UploadModel.show(number)
+        .then(data => setUpload(data.upload))
   }, [number])
 
-  let audio = new Audio(upload.music)
-
   const handlePlay = () => {
-    audio.play()
-    setIsPaused(!isPaused)
+    Ref.current.play()
+    setIsPaused(false)
   }
-  
+
   const handlePause = () => {
-    audio.pause();
+    Ref.current.pause()
+    setIsPaused(true)
   }
 
-
-  const stopMusic = () => {
-
+  const handlePrev = () => {
+    setNumber(number - 1)
+    console.log(number)
   }
 
-  const playMusic = () => {
+  const handleNext = () => {
+    setNumber(number + 1) 
+      console.log(number)
+  }
+
+  const handleVolume = () => {
 
   }
 
@@ -108,29 +113,33 @@ const Player = () => {
         </CardContent>
         <div className={classes.controls}>
           <IconButton aria-label="previous">
-            {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
+            {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon onClick={ handlePrev } />}
           </IconButton>
+          <audio
+            ref={Ref}
+            src={upload.music}
+          />
           <IconButton 
             aria-label="play/pause"
-            onClick={ handlePlay }
-            checked={ isPaused }
-            >
-            { isPaused ? (
-              <PlayArrowIcon
-                fontSize="small"
-                className={ classes.playIcon } 
-              />
-            ) : (
+            onClick={ isPaused ? handlePlay : handlePause }
+          >
+            { !isPaused ? (
               <PauseIcon
-                onClick={ handlePause }
+                // onClick={ setIsPaused(!isPaused) }
                 fontSize="large"
                 className={ classes.pauseIcon } 
+              />
+            ) : (
+              <PlayArrowIcon
+                fontSize="small"
+                className={ classes.playIcon }
+                // onClick={ setIsPaused(!isPaused) }
               />
             )
             }
           </IconButton>
           <IconButton aria-label="next">
-            { theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
+            { theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon onClick={ handleNext }/>}
           </IconButton>
         </div>
       </div>
