@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import UploadModel from '../models/upload';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +42,14 @@ const Player = () => {
   const theme = useTheme();
 
   const [isPaused, setIsPaused] = useState(true);
+  const [upload, setUpload] = useState('');
+  const [loadMusic, setLoadMusic] = useState('');
+  const [loadNext, setLoadNext] = useState('');
+
+  useEffect(() =>{
+    UploadModel.show(1)
+      .then(data => setUpload(data.upload))
+  }, [1])
 
   const handlePlay = () => {
     setIsPaused(!isPaused)
@@ -50,6 +59,8 @@ const Player = () => {
       playMusic()
     )
   }
+
+
 
   const stopMusic = () => {
 
@@ -63,13 +74,11 @@ const Player = () => {
     <Card className={classes.root}>
       <div className={classes.details}>
         <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
-            album
-            {/* {upload.album} */}
+          <Typography component="h6" variant="h6">
+            {upload.name}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            artist
-            {/* {upload.artist} */}
+            {upload.artist}
           </Typography>
         </CardContent>
         <div className={classes.controls}>
@@ -89,7 +98,7 @@ const Player = () => {
       </div>
       <CardMedia
         className={classes.cover}
-        image="pull from cloudinary using db string"
+        image={upload.artwork}
         // title={upload.title}
       />
     </Card>

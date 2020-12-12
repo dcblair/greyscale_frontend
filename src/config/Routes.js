@@ -8,6 +8,7 @@ import Login from '../pages/Login'
 import Profile from '../pages/Profile'
 import About from '../pages/About'
 import Contact from '../pages/Contact'
+import UserMusic from '../components/UserMusic';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const currentUser = localStorage.getItem('id')
@@ -32,6 +33,7 @@ const Routes = (props) => (
               />
     }} />
     <PrivateRoute path='/profile' component={ Profile } currentUser={ props.currentUser }/>
+    <PrivateRoute path='/music/mine' component={ UserMusic } currentUser={ props.currentUser }/>
   </Switch>
 )
 

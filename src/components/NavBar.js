@@ -5,7 +5,7 @@ import { Grid,
         Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AccountCircle } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const NavBar = props => {
+const NavBar = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
@@ -45,39 +45,46 @@ const NavBar = props => {
         justifyContent="space-between"
         justify="center"
       >
-        <IconButton
-          className={classes.profileButton}
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={handleMenu}
-          color="inherit"
-        >
-        <AccountCircle />
-        </IconButton>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            horizontal: 'right'
-          }}
-          keepMounted
-          transformOrigin={{
-            horizontal: 'right',
-          }}
-          open={open}
-          onClose={handleClose}
-        >
-          <MenuItem component={ Link } to={ '/profile' } onClick={ handleClose }>
-            Profile
-          </MenuItem>
-          <MenuItem component={ Link } to={ '/logout' } onClick={ props.logout }>
-            Logout
-          </MenuItem>
-        </Menu>
-        <Link to={ "/login" }>login</Link>
-        <Typography variant="body1"> | </Typography>
-        <Link to={ "/register" }>register</Link>
+        { props.currentUser ? (
+          <>
+            <IconButton
+              className={classes.profileButton}
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+            <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                horizontal: 'right'
+              }}
+              keepMounted
+              transformOrigin={{
+                horizontal: 'right',
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem component={ Link } to={ '/profile' } onClick={ handleClose }>
+                Profile
+              </MenuItem>
+              <MenuItem component={ Link } to={ '/logout' } onClick={ props.logout }>
+                Logout
+              </MenuItem>
+            </Menu>
+          </>
+        ): (
+          <>
+            <Link to={ "/login" }>login</Link>
+            <Typography variant="body1"> | </Typography>
+            <Link to={ "/register" }>register</Link>
+          </>
+        )}
 
       </Grid>
     </div>

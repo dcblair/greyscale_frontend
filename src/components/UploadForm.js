@@ -3,20 +3,27 @@ import { Button,
         Switch,
         TextField,
         Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import UploadModel from '../models/upload';
+import { useHistory } from 'react-router-dom';
 
 const UploadForm = () => {
-  const [name, setName] = useState('')
-  const [artwork, setArtwork] = useState('')
-  const [artist, setArtist] = useState('')
-  const [music, setMusic] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [isPublic, setIsPublic] = useState(true)
+  const history = useHistory();
+
+  const [name, setName] = useState('');
+  const [album, setAlbum] = useState('');
+  const [artwork, setArtwork] = useState('');
+  const [artist, setArtist] = useState('');
+  const [music, setMusic] = useState('');
+  const [labelId, setLabelId] = useState('');
+  const [genre, setGenre] = useState('');
+  const [isPublic, setIsPublic] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const uploadArtwork = async () => {
     const files = artwork
     const data = new FormData()
-    console.log(files)
     data.append('file', files[0])
     data.append('upload_preset', 'greyscale_album')
     setLoading(true)
@@ -27,43 +34,44 @@ const UploadForm = () => {
         body: data
       }
     )
-    console.log(res)
     const file = await res.json()
     setArtwork(file.secure_url)
     setLoading(false)
   }
-
   const uploadMusic = async () => {
     const files = music
-    console.log(files)
     const data = new FormData()
     data.append('file', files[0])
     data.append('upload_preset', 'greyscale_music')
     setLoading(true)
     const res = await fetch(
       `${process.env.REACT_APP_CLOUDINARY_URL}/raw/upload`,
-
+      
       {
         method: 'POST',
         body: data
       }
-    )
-    const file = await res.json()
-    setMusic(file.secure_url)
-    setLoading(false)
-  }
+      )
+      const file = await res.json()
+      setMusic(file.secure_url)
+      console.log(music, file.secure_url)
+      setLoading(false)
+    }
+    
+  useEffect(() => {
+    if (typeof music === "string" && typeof artwork === "string") {
+      const userId = localStorage.getItem("id")
+      UploadModel.create({ userId, labelId, name, music, artist, album, isPublic, genre, artwork })
+    }
+  }, [music, artwork])
 
-  const handleSubmit = () => {
-    // if(artist && genre &&  )
-    // db call and cloudinary
-    // separate fetches
-    // await cloudinary calls music
-    // no async useEffect, but useEffect can call async functions
-    // one call for db
-    // validate music && art
-    if(music && artwork) {
-      uploadMusic()
-      uploadArtwork()
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    if(name && artist && album && genre && music && artwork) {
+      await uploadMusic()
+      await uploadArtwork()
+      return history.push('/music/mine')
     } else {
       console.log("Please make sure all fields are full and files are uploaded.")
     }
@@ -71,7 +79,7 @@ const UploadForm = () => {
 
   return (
     <div>
-      <form action="">
+      <form action="" id="uploadForm">
         <div aria-label="Entry title textfield">
           <TextField 
             id="outlined-basic" 
@@ -83,13 +91,46 @@ const UploadForm = () => {
           />
         </div>
 
-        <div aria-label="genre">
+        <div aria-label="artist">
           <TextField
             id="outlined-multiline-static"
             label="artist name"
             value={artist}
             type="text"
             onInput={ e => setArtist(e.target.value)}
+            variant="outlined"
+          />
+        </div>
+        
+        <div aria-label="album">
+          <TextField
+            id="outlined-multiline-static"
+            label="album name"
+            value={album}
+            type="text"
+            onInput={ e => setAlbum(e.target.value)}
+            variant="outlined"
+          />
+        </div>
+
+        <div aria-label="genre">
+          <TextField
+            id="outlined-multiline-static"
+            label="genre"
+            value={genre}
+            type="text"
+            onInput={ e => setGenre(e.target.value)}
+            variant="outlined"
+          />
+        </div>
+
+        <div aria-label="labelId">
+          <TextField
+            id="outlined-multiline-static"
+            label="label id"
+            value={labelId}
+            type="text"
+            onInput={ e => setLabelId(e.target.value)}
             variant="outlined"
           />
         </div>
@@ -136,10 +177,11 @@ const UploadForm = () => {
           Submit
         </Button>
       </form>
+
         {loading ? (
           <Typography>loading...</Typography>
         ): (
-          <img src={artwork} style={{width: "200px"}}/>
+          <img src={artwork} alt="album artwork" style={{width: "200px"}}/>
         )
         }
     </div>
