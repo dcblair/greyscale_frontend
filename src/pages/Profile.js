@@ -32,6 +32,7 @@ const Profile = (props) => {
   const [image, setImage] = useState('');
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState('');
+  const [formToggle, setFormToggle] = useState(true);
 
 
   const uploadImage = async () => {
@@ -63,11 +64,13 @@ const Profile = (props) => {
     e.preventDefault()
 
     await uploadImage()
-    console.log(props.currentUser)
-    UserModel.update({ artistName, email, image }, props.currentUser)
-      .then(() => {
-        props.setFormToggle(false)
-      })
+    const userId = localStorage.getItem("id")
+    if(typeof image === "string") {
+      UserModel.update({ artistName, email, image }, userId)
+        .then(() => {
+          setFormToggle(false)
+        })
+    }
   }
 
   return (
@@ -91,7 +94,6 @@ const Profile = (props) => {
           </Typography>
 
             <form 
-                onSubmit={ handleSubmit } 
                 noValidate 
                 autoComplete="off"
             >
@@ -115,7 +117,7 @@ const Profile = (props) => {
                   style={{
                     marginTop: 10,
                   }}
-                  id="outlined-multiline-static"
+                  id="outlined-basic"
                   label="email"
                   value={email}
                   type="text"
@@ -135,6 +137,7 @@ const Profile = (props) => {
 
               <Button
                 type="submit"
+                onClick={ handleSubmit }
                 className={classes.button}
               >
                 submit
@@ -143,7 +146,10 @@ const Profile = (props) => {
             {loading ? (
               <Typography>loading...</Typography>
             ): (
+              <>
               <img src={image} alt="profile picture" style={{width: "200px"}}/>
+              <Typography>update complete!</Typography>
+              </>
             )
             }
           </Grid>

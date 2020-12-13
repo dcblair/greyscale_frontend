@@ -9,7 +9,6 @@ import './App.css';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(localStorage.getItem('id'));
-  const [currentArtist, setCurrentArtist] = useState(localStorage.getItem('artistName'));
   const [darkMode, setDarkMode] = useState(false);
 
   const font = "'Montserrat', sans-serif";
@@ -64,16 +63,9 @@ function App() {
     },
   })
 
-
   const storeUser = (userId) => {
     localStorage.setItem('id', userId)
     setCurrentUser( userId )
-  }
-  
-  const storeArtistName = (artistName) => {
-    localStorage.setItem('artistName', artistName)
-    setCurrentArtist( artistName )
-    console.log(artistName)
   }
   
   const logout = (event) => {
@@ -96,7 +88,6 @@ function App() {
           <Paper>
             <NavBar
               currentUser={ currentUser } 
-              currentArtist={ currentArtist } 
               logout={ logout }
               darkMode={ darkMode }
               setDarkMode={ setDarkMode }
@@ -105,9 +96,7 @@ function App() {
             <Player />
             <Routes 
               currentUser={ currentUser }
-              currentArtist={ currentArtist }
               storeUser={ storeUser }
-              storeArtistName={ storeArtistName }
             />
           </Paper>
         </CssBaseline>

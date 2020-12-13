@@ -58,12 +58,12 @@ const Player = (props) => {
   const handleSliderChange = (e, newValue) => {
     setValue(newValue);
     Ref.current.volume = value * .01
+    console.log(Ref.current.currentTime)
   };
 
   const handleInputChange = (e) => {
     setValue(e.target.value === '' ? '' : Number(e.target.value));
     Ref.current.volume = e.target.value * .01
-    console.log(Ref.current.currentTime)
   };
 
   const handleBlur = () => {
@@ -92,13 +92,11 @@ const Player = (props) => {
   const handlePrev = () => {
     setNumber(number - 1)
     setIsPaused(true)
-    console.log(number)
   }
 
   const handleNext = () => {
     setNumber(number + 1)
     setIsPaused(true)
-      console.log(number)
   }
 
   return (

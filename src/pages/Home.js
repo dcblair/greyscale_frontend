@@ -1,12 +1,21 @@
 import React from 'react';
 import UploadForm from '../components/UploadForm';
 
-const Home = () => {
+const Home = (props) => {
 
 
   return (
     <div>
-      <UploadForm />
+      {/* { currentUser ? (
+        <> */}
+          <UploadForm />
+        {/* </>
+      ) : (
+        <>
+        
+        </>
+      )
+      } */}
     </div>
   )
 }

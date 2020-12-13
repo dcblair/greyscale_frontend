@@ -32,8 +32,8 @@ const Routes = (props) => (
               storeUser={ props.storeUser }
               />
     }} />
-    <PrivateRoute path='/profile' component={ Profile } currentUser={ props.currentUser }/>
-    <PrivateRoute path='/music/mine' component={ UserMusic } currentUser={ props.currentUser }/>
+    <PrivateRoute path='/profile' component={ Profile } currentUser={ props.currentUser } />
+    <PrivateRoute path='/music/mine' component={ UserMusic } currentUser={ props.currentUser } />
   </Switch>
 )
 
