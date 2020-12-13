@@ -9,6 +9,10 @@ class UserModel {
     }).then(res => res.json())
   }
 
+  static show = (userId) => {
+    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/auth/${userId}`).then(res => res.json())
+  }
+
   static login(credentials) {
     return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/auth/login`, {
       method: "POST",
@@ -21,7 +25,7 @@ class UserModel {
   }
 
   static update = (user, userId) => {
-    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/user/${userId}`, {
+    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/auth/${userId}`, {
       method: 'PUT',
       headers: {
         "Content-Type": "application/json"

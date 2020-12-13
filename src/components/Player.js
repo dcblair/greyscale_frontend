@@ -45,11 +45,15 @@ const Player = (props) => {
   const [upload, setUpload] = useState('');
   const [value, setValue] = useState(70);
   const [scrubValue, setScrubValue] = useState(0);
-  const [number, setNumber] = useState(9);
+  const [number, setNumber] = useState(15);
   
   const handleScrubChange = (event, newValue) => {
     setScrubValue(newValue);
   };
+
+  // useEffect(() => {
+  //   console.log(Ref.current.currentTime)
+  // }, [Ref.current.currentTime])
 
   const handleSliderChange = (e, newValue) => {
     setValue(newValue);
@@ -59,6 +63,7 @@ const Player = (props) => {
   const handleInputChange = (e) => {
     setValue(e.target.value === '' ? '' : Number(e.target.value));
     Ref.current.volume = e.target.value * .01
+    console.log(Ref.current.currentTime)
   };
 
   const handleBlur = () => {
@@ -86,11 +91,13 @@ const Player = (props) => {
 
   const handlePrev = () => {
     setNumber(number - 1)
+    setIsPaused(true)
     console.log(number)
   }
 
   const handleNext = () => {
-    setNumber(number + 1) 
+    setNumber(number + 1)
+    setIsPaused(true)
       console.log(number)
   }
 
@@ -110,8 +117,10 @@ const Player = (props) => {
             {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon onClick={ handlePrev } />}
           </IconButton>
           <audio
+            id="song"
             ref={Ref}
             src={upload.music}
+            currentTime="seconds"
           />
           <IconButton 
             aria-label="play/pause"
@@ -184,14 +193,16 @@ const Player = (props) => {
           <Grid container spacing={2}>
             <Grid item>
               <Typography variant="body1">
-                0
+                0:00
               </Typography>
             </Grid>
             <Grid item xs>
               <Slider value={scrubValue} onChange={ handleScrubChange }  aria-labelledby="continuous-slider" />
             </Grid>
-            <Typography variant="body1">
-              100
+            <Typography 
+              variant="body1"
+            >
+              {Ref.duration}
             </Typography>
           </Grid>
           </Grid>

@@ -1,5 +1,6 @@
 import { Button,
         Grid,
+        Input,
         Switch,
         TextField,
         Typography } from '@material-ui/core';
@@ -38,6 +39,7 @@ const UploadForm = () => {
     setArtwork(file.secure_url)
     setLoading(false)
   }
+
   const uploadMusic = async () => {
     const files = music
     const data = new FormData()
@@ -54,9 +56,8 @@ const UploadForm = () => {
       )
       const file = await res.json()
       setMusic(file.secure_url)
-      console.log(music, file.secure_url)
       setLoading(false)
-    }
+  }
     
   useEffect(() => {
     if (typeof music === "string" && typeof artwork === "string") {
@@ -66,7 +67,7 @@ const UploadForm = () => {
   }, [music, artwork])
 
   const handleSubmit = async e => {
-    e.preventDefault();
+    e.preventDefault()
 
     if(name && artist && album && genre && music && artwork) {
       await uploadMusic()
@@ -136,7 +137,7 @@ const UploadForm = () => {
         </div>
 
         <Typography variant="body1">music file</Typography>
-        <input 
+        <Input
           type="file"
           name="file"
           placeholder="upload music"
@@ -144,7 +145,7 @@ const UploadForm = () => {
         />
 
         <Typography variant="body1">album artwork</Typography>
-        <input
+        <Input
           type="file"
           name="file"
           placeholder="upload album artwork"
