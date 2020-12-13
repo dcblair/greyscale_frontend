@@ -33,11 +33,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     paddingLeft: theme.spacing(1),
     paddingBottom: theme.spacing(1),
-  },
-  playIcon: {
-    height: 38,
-    width: 38,
-  },
+  }
 }));
 
 const Player = (props) => {
@@ -47,19 +43,22 @@ const Player = (props) => {
 
   const [isPaused, setIsPaused] = useState(true);
   const [upload, setUpload] = useState('');
-  const [loadMusic, setLoadMusic] = useState('');
-  const [loadNext, setLoadNext] = useState('');
   const [value, setValue] = useState(70);
+  const [scrubValue, setScrubValue] = useState(0);
   const [number, setNumber] = useState(9);
+  
+  const handleScrubChange = (event, newValue) => {
+    setScrubValue(newValue);
+  };
 
-  const num = Math.floor(Math.random(upload))
-
-  const handleSliderChange = (event, newValue) => {
+  const handleSliderChange = (e, newValue) => {
     setValue(newValue);
+    Ref.current.volume = value * .01
   };
 
   const handleInputChange = (e) => {
     setValue(e.target.value === '' ? '' : Number(e.target.value));
+    Ref.current.volume = e.target.value * .01
   };
 
   const handleBlur = () => {
@@ -69,8 +68,7 @@ const Player = (props) => {
       setValue(100);
     }
   };
-
-
+  
   useEffect(() =>{
       UploadModel.show(number)
         .then(data => setUpload(data.upload))
@@ -94,10 +92,6 @@ const Player = (props) => {
   const handleNext = () => {
     setNumber(number + 1) 
       console.log(number)
-  }
-
-  const handleVolume = () => {
-
   }
 
   return (
@@ -125,15 +119,13 @@ const Player = (props) => {
           >
             { !isPaused ? (
               <PauseIcon
-                // onClick={ setIsPaused(!isPaused) }
-                fontSize="large"
+                fontSize="medium"
                 className={ classes.pauseIcon } 
               />
             ) : (
               <PlayArrowIcon
-                fontSize="small"
+                fontSize="medium"
                 className={ classes.playIcon }
-                // onClick={ setIsPaused(!isPaused) }
               />
             )
             }
@@ -148,39 +140,63 @@ const Player = (props) => {
           image={ upload.artwork }
           title={ upload.artwork }
         />
-    <div>
-      <Typography id="input-slider" gutterBottom>
-        Volume
-      </Typography>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item>
-          <VolumeUp />
+      <div>
+        <Grid
+          container
+        >
+          <Typography id="input-slider" gutterBottom>
+            Volume
+          </Typography>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <VolumeUp />
+            </Grid>
+            <Grid item xs>
+              <Slider
+                value={typeof value === 'number' ? value : 0}
+                onChange={ handleSliderChange }
+                aria-labelledby="input-slider"
+              />
+            </Grid>
+            <Grid item>
+              <Input
+                className={classes.input}
+                value={value}
+                margin="dense"
+                onChange={ handleInputChange }
+                onBlur={ handleBlur }
+                inputProps={{
+                  step: 10,
+                  min: 0,
+                  max: 100,
+                  type: 'number',
+                  'aria-labelledby': 'input-slider',
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Grid
+          container
+          >
+          <Typography id="continuous-slider" gutterBottom>
+            Scrubbing
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item>
+              <Typography variant="body1">
+                0
+              </Typography>
+            </Grid>
+            <Grid item xs>
+              <Slider value={scrubValue} onChange={ handleScrubChange }  aria-labelledby="continuous-slider" />
+            </Grid>
+            <Typography variant="body1">
+              100
+            </Typography>
+          </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <Slider
-            value={typeof value === 'number' ? value : 0}
-            onChange={ handleSliderChange }
-            aria-labelledby="input-slider"
-          />
-        </Grid>
-        <Grid item>
-          <Input
-            className={classes.input}
-            value={value}
-            margin="dense"
-            onChange={ handleInputChange }
-            onBlur={ handleBlur }
-            inputProps={{
-              step: 10,
-              min: 0,
-              max: 100,
-              type: 'number',
-              'aria-labelledby': 'input-slider',
-            }}
-          />
-        </Grid>
-      </Grid>
-    </div>
+      </div>
     </Card>
   );
 }
