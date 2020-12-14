@@ -57,23 +57,22 @@ const Profile = (props) => {
     setImage(file.secure_url)
     setLoading(false)
   }
-
-  useEffect(() => {
-    if(typeof image === "string") {
-      UserModel.update({ artistName, image }, userId)
-        .then(updateUser())
-    }
-  }, [image])
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    await uploadImage()
-  }
-
-  const updateUser = () => {
     
+    await uploadImage()
+
+    if(typeof image === "string") {
+      UserModel.update({ artistName, image }, userId)
+    }
   }
+  // useEffect(() => {
+  //   if(typeof image === "string") {
+  //     UserModel.update({ artistName, image }, userId)
+  //       .then(updateUser())
+  //   }
+  // }, [artistName, image])
 
   const handleDelete = () => {
     UserModel.delete(user, userId)
@@ -110,11 +109,11 @@ const Profile = (props) => {
               <div aria-label="artist name textfield">
                 <TextField
                   className={classes.field}
-                  id="outlined-basic" 
+                  id="outlined-static" 
                   label="artist name"
                   type="text"
                   value={artistName}
-                  defaultValue={ user.artistName }
+                  defaultValue={user.artistName}
                   onInput={ e => setArtistName(e.target.value)}
                   variant="outlined" 
                 />

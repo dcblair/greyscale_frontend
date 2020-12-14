@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const Login = props => {
   const classes = useStyles();
 
@@ -41,7 +40,6 @@ const Login = props => {
       password
     }).then(data => {
       props.storeUser(data.user)
-      props.setCurrentUser(user.id)
       if(!data.user) {
         console.log('Login unsuccessful')
         return false
@@ -49,7 +47,6 @@ const Login = props => {
       })
       .catch(err => console.log('Login error', err))
   }
-
 
   if ( currentUser ) return <Redirect to='/' />
 

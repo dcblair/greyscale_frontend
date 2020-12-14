@@ -11,8 +11,10 @@ import UploadModel from '../models/upload'
 import { UserContext } from '../components/context';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import UserModel from '../models/user';
 import ConfirmUploadDialog from './ConfirmUploadDialog';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +49,7 @@ const UserMusic = (props) => {
 
   const { user, currentUser, setUser } = useContext(UserContext);
   const [upload] = useState('');
-  const [uploads, setUploads] = useState();
+  const [uploads, setUploads] = useState('');
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
@@ -67,7 +69,8 @@ const UserMusic = (props) => {
       <Typography>
         {user.artistName}'s music
       </Typography>
-      { uploads && uploads.map((upload) => (
+      { (uploads !== '') ? (
+        uploads.map((upload) => (
         <Card
           className={classes.Card}
           elevation={1}
@@ -94,6 +97,9 @@ const UserMusic = (props) => {
           />
           <>
             <IconButton>
+              <PlayCircleFilledIcon />
+            </IconButton>
+            <IconButton>
               <EditIcon />
             </IconButton>
             <IconButton aria-label="delete" onClick={() => setConfirmOpen(true)}>
@@ -109,7 +115,11 @@ const UserMusic = (props) => {
             </ConfirmUploadDialog>
           </>  
         </Card>
-      ))}
+      ))
+      ) : (
+          <Link to={ "/UploadForm" }>upload music</Link>
+      )
+      }
     </div>
   )
 }

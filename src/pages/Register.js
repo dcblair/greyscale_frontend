@@ -49,7 +49,7 @@ const Register = props => {
   return (
     <div>
       <h4>Register</h4>
-      <form className={classes.root} noValidate autoComplete="off" onSubmit={ handleSubmit }>
+      <form className={classes.root} noValidate autoComplete="off">
         <div className="form-group">
           <TextField
             onChange={ handleArtistName } 
@@ -101,7 +101,8 @@ const Register = props => {
           />
         </div>
 
-        <Button 
+        <Button
+          onClick={ handleSubmit } 
           variant="contained" 
           color="primary" 
           type="submit"
