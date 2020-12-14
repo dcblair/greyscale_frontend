@@ -6,9 +6,10 @@ import { Button,
         makeStyles, 
         Typography,
       } from '@material-ui/core';
-import React, { useContext, useEffect, useState } from 'react'
-import UploadModel from '../models/upload'
-import { UserContext } from '../components/context';
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import UploadModel from '../models/upload';
+import { UserContext } from './userContext';
+import { MusicContext } from './musicContext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
@@ -47,8 +48,11 @@ const useStyles = makeStyles((theme) => ({
 const UserMusic = (props) => {
   const classes = useStyles();
 
+  const Ref = useRef();
+
   const { user, currentUser, setUser } = useContext(UserContext);
-  const [upload] = useState('');
+  const { setIsPaused, setNumber } = useContext(MusicContext);
+
   const [uploads, setUploads] = useState('');
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -62,6 +66,11 @@ const UserMusic = (props) => {
       .then(data =>
         setUploads(uploads.filter(upload => upload.id !== upload))
       )
+  }
+
+  const selectTrack = (uploadId) => {
+    setNumber(uploadId)
+    setIsPaused(false)
   }
 
   return (
@@ -96,7 +105,9 @@ const UserMusic = (props) => {
             title={ upload.artwork }
           />
           <>
-            <IconButton>
+            <IconButton
+              onClick={ () => selectTrack(upload.id) }
+            >
               <PlayCircleFilledIcon />
             </IconButton>
             <IconButton>

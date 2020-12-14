@@ -1,4 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext,
+              useEffect,
+              useRef,
+              useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -10,7 +13,7 @@ import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
-import UploadModel from '../models/upload';
+import { MusicContext } from '../components/musicContext';
 import { Grid, Input, Slider } from '@material-ui/core';
 import { VolumeUp } from '@material-ui/icons';
 
@@ -41,11 +44,14 @@ const Player = (props) => {
   const theme = useTheme();
   const Ref = useRef();
 
-  const [isPaused, setIsPaused] = useState(true);
-  const [upload, setUpload] = useState('');
-  const [value, setValue] = useState(70);
+  const { isPaused,
+          setIsPaused,
+          number,
+          setNumber,
+          upload
+        } = useContext(MusicContext);
+  const [value, setValue] = useState(60);
   const [scrubValue, setScrubValue] = useState(0);
-  const [number, setNumber] = useState(15);
   
   const handleScrubChange = (event, newValue) => {
     setScrubValue(newValue);
@@ -74,11 +80,6 @@ const Player = (props) => {
     }
   };
   
-  useEffect(() =>{
-      UploadModel.show(number)
-        .then(data => setUpload(data.upload))
-  }, [number])
-
   const handlePlay = () => {
     Ref.current.play()
     setIsPaused(false)
@@ -91,12 +92,10 @@ const Player = (props) => {
 
   const handlePrev = () => {
     setNumber(number - 1)
-    setIsPaused(true)
   }
 
   const handleNext = () => {
     setNumber(number + 1)
-    setIsPaused(true)
   }
 
   return (
@@ -119,6 +118,7 @@ const Player = (props) => {
             ref={Ref}
             src={upload.music}
             currentTime="seconds"
+            autoPlay={true}
           />
           <IconButton 
             aria-label="play/pause"

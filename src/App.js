@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+// import { Link, Redirect } from 'react-router-dom';
 import { createMuiTheme, CssBaseline, Paper, ThemeProvider } from '@material-ui/core';
 import NavBar from './components/NavBar';
 import Player from './components/Player';
 import Routes from './config/Routes';
 import './App.css';
-import { UserContextProvider } from './components/context';
+import { UserContextProvider } from './components/userContext';
+import { MusicContextProvider } from './components/musicContext';
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem('id'));
   const [darkMode, setDarkMode] = useState(false);
 
   const font = "'Montserrat', sans-serif";
@@ -63,28 +63,22 @@ function App() {
     },
   })
 
-  const storeUser = (userId) => {
-    localStorage.setItem('id', userId)
-    setCurrentUser( userId )
-  }
-
   return (
     <div className="App">
       <ThemeProvider>
         <CssBaseline>
           <Paper>
             <UserContextProvider>
+              <MusicContextProvider>
             <NavBar
-              currentUser={ currentUser } 
               darkMode={ darkMode }
               setDarkMode={ setDarkMode }
             >
             </NavBar>
             <Player />
             <Routes 
-              currentUser={ currentUser }
-              storeUser={ storeUser }
             />
+              </MusicContextProvider>
             </UserContextProvider>
           </Paper>
         </CssBaseline>

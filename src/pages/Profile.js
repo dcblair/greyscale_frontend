@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useContext, useEffect, useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 import UserModel from '../models/user';
-import { UserContext } from '../components/context';
+import { UserContext } from '../components/userContext';
 import ConfirmDialog from '../components/ConfirmDialog';
 
 const useStyles = makeStyles((theme) => ({
@@ -67,12 +67,6 @@ const Profile = (props) => {
       UserModel.update({ artistName, image }, userId)
     }
   }
-  // useEffect(() => {
-  //   if(typeof image === "string") {
-  //     UserModel.update({ artistName, image }, userId)
-  //       .then(updateUser())
-  //   }
-  // }, [artistName, image])
 
   const handleDelete = () => {
     UserModel.delete(user, userId)

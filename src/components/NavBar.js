@@ -1,4 +1,4 @@
-import { Grid,
+import { Button, Grid,
         IconButton,
         Menu,
         MenuItem,
@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AccountCircle } from '@material-ui/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from './context';
+import { UserContext } from './userContext';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,9 +30,11 @@ const NavBar = (props) => {
   const classes = useStyles();
 
   const { user, setUser, currentUser, logout } = useContext(UserContext);
+  
   const [anchorEl, setAnchorEl] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
   const open = Boolean(anchorEl);
+  const [openDialog, setOpenDialog] = useState(false);
+  
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -59,7 +61,20 @@ const NavBar = (props) => {
               onClick={ handleMenu }
               color="inherit"
             >
-            <AccountCircle />
+            { user && user.image ? (
+              <>
+                <img
+                src={user.image}
+                width={40}
+                />
+              </>
+            )
+            :
+              <>
+                <AccountCircle />
+              </>
+            }
+
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -84,6 +99,12 @@ const NavBar = (props) => {
                 logout
               </MenuItem>
             </Menu>
+            <Button
+              // onClick={ openUploadForm }
+            >
+
+            </Button>
+            <Link to={ "/upload/form" }>upload TURN THIS INTO MODAL!</Link> 
           </>
         ): (
           <>

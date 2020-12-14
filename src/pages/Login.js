@@ -6,7 +6,7 @@ import { Button,
         } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UserModel from '../models/user';
-import { UserContext } from '../components/context';
+import { UserContext } from '../components/userContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = props => {
   const classes = useStyles();
 
-  const { user, currentUser, setCurrentUser } = useContext(UserContext);
+  const { storeUser, currentUser, setCurrentUser } = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -39,7 +39,7 @@ const Login = props => {
       email,
       password
     }).then(data => {
-      props.storeUser(data.user)
+      storeUser(data.user)
       if(!data.user) {
         console.log('Login unsuccessful')
         return false

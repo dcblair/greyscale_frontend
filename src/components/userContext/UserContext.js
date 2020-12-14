@@ -7,6 +7,11 @@ export const Context = createContext({});
 export const Provider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(localStorage.getItem('id'));
   const [user, setUser] = useState('');
+  
+  const storeUser = (userId) => {
+    localStorage.setItem('id', userId)
+    setCurrentUser( userId )
+  }
 
   useEffect(() => {
     if(currentUser) {
@@ -32,6 +37,7 @@ export const Provider = ({ children }) => {
     currentUser,
     user,
     setUser,
+    storeUser,
     logout
   }
 

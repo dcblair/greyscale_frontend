@@ -9,6 +9,7 @@ import Profile from '../pages/Profile'
 import About from '../pages/About'
 import Contact from '../pages/Contact'
 import UserMusic from '../components/UserMusic';
+import UploadForm from '../components/UploadForm';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const currentUser = localStorage.getItem('id')
@@ -24,16 +25,15 @@ const Routes = (props) => (
     <Route path='/about' component={ About } />
     <Route path='/contact' component={ Contact } />
     <Route path='/upload/' component={ Uploads } />
+    <Route path='/upload/form' component={ UploadForm } />
     <Route path='/Register/' component={ Register } />
     <Route path='/login' render={(routeComponentProps) => {
       return <Login
               {...routeComponentProps}
-              currentUser={ props.currentUser }
-              storeUser={ props.storeUser }
               />
     }} />
-    <PrivateRoute path='/profile' component={ Profile } currentUser={ props.currentUser } />
-    <PrivateRoute path='/music/mine' component={ UserMusic } currentUser={ props.currentUser } />
+    <PrivateRoute path='/profile' component={ Profile } />
+    <PrivateRoute path='/music/mine' component={ UserMusic } />
   </Switch>
 )
 
