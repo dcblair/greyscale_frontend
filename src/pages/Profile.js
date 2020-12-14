@@ -6,8 +6,11 @@ import { Button,
         Typography
       } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+// import { useHistory } from 'react-router-dom';
 import UserModel from '../models/user';
+import { UserContext } from '../components/context';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 const useStyles = makeStyles((theme) => ({
   field: {
@@ -25,14 +28,16 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Profile = (props) => {
+  const userId = localStorage.getItem("id");
+  
   const classes = useStyles();
+  // const history = useHistory();
 
+  const { user, setUser, logout } = useContext(UserContext);
   const [artistName, setArtistName] = useState('');
-  const [email, setEmail] = useState('');
   const [image, setImage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState('');
-  const [formToggle, setFormToggle] = useState(true);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
 
   const uploadImage = async () => {
@@ -54,23 +59,27 @@ const Profile = (props) => {
   }
 
   useEffect(() => {
-    if(props.currentUser) {
-      UserModel.show(props.currentUser)
-        .then(data => setUser(data.user))
+    if(typeof image === "string") {
+      UserModel.update({ artistName, image }, userId)
+        .then(updateUser())
     }
-  }, [props.currentUser])
+  }, [image])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     await uploadImage()
-    const userId = localStorage.getItem("id")
-    if(typeof image === "string") {
-      UserModel.update({ artistName, email, image }, userId)
-        .then(() => {
-          setFormToggle(false)
-        })
-    }
+  }
+
+  const updateUser = () => {
+    
+  }
+
+  const handleDelete = () => {
+    UserModel.delete(user, userId)
+      .then(
+        logout()
+      )
   }
 
   return (
@@ -111,22 +120,6 @@ const Profile = (props) => {
                 />
               </div>
 
-              <div aria-label="email textfield">
-                <TextField
-                  className={classes.field}
-                  style={{
-                    marginTop: 10,
-                  }}
-                  id="outlined-basic"
-                  label="email"
-                  value={email}
-                  type="text"
-                  defaultValue={ user.email }
-                  onInput={ e => setEmail(e.target.value)}
-                  variant="outlined"
-                />
-              </div>
-
               <Typography variant="body1">profile picture</Typography>
               <Input
                 type="file"
@@ -148,10 +141,20 @@ const Profile = (props) => {
             ): (
               <>
               <img src={image} alt="profile picture" style={{width: "200px"}}/>
-              <Typography>update complete!</Typography>
               </>
             )
             }
+            <Button aria-label="delete" onClick={() => setConfirmOpen(true)}>
+              delete account
+            </Button>
+            <ConfirmDialog
+              title="delete acount?"
+              open={ confirmOpen }
+              setOpen={ setConfirmOpen }
+              onConfirm={ handleDelete }
+            >
+              are you sure you want to delete your account?
+            </ConfirmDialog>
           </Grid>
         </Paper>
     </div>

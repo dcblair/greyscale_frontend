@@ -1,6 +1,19 @@
-import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react'
+import { Button, 
+        Card,
+        CardMedia,
+        Grid,
+        IconButton,
+        makeStyles, 
+        Typography,
+      } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react'
 import UploadModel from '../models/upload'
+import { UserContext } from '../components/context';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import UserModel from '../models/user';
+import ConfirmUploadDialog from './ConfirmUploadDialog';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(.7),
     },
   },
-  paper: {
+  card: {
     width: 300,
     [theme.breakpoints.down('sm')]: {
       width: 300,
@@ -24,48 +37,78 @@ const useStyles = makeStyles((theme) => ({
       width: 1200
     }
   },
+  cover: {
+    width: 151,
+  },
 }))
 
 const UserMusic = (props) => {
   const classes = useStyles();
 
+  const { user, currentUser, setUser } = useContext(UserContext);
+  const [upload] = useState('');
   const [uploads, setUploads] = useState();
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
-    if(uploads) {
-      UploadModel.user(props.currentUser)
+      UploadModel.user(currentUser)
         .then(data => setUploads(data.uploads))
-    }
-  }, [uploads])
+  }, [currentUser])
   
+  const handleUploadDelete = (uploadId) => {
+    UploadModel.delete(user, uploadId)
+      .then(data =>
+        setUploads(uploads.filter(upload => upload.id !== upload))
+      )
+  }
+
   return (
     <div>
-    <p>Hi!</p>
+      <Typography>
+        {user.artistName}'s music
+      </Typography>
       { uploads && uploads.map((upload) => (
-        <Paper
-          className={classes.paper}
+        <Card
+          className={classes.Card}
           elevation={1}
           style={{
           display:"inline-block",
           textAlign: "center",
-          padding: 15
+          padding: 30
           }}
         >
           <Typography component="h3" variant="h6" key={upload.id}>
           {upload.name}
-        </Typography>
-        <Typography component="h5" variant="body1" key={upload.artistName}>
-          By {upload.artistName}
-        </Typography>
-        <Typography compoment="p" variant="body1" key={upload.album}>
-          {upload.album}
-        </Typography>
-        {/* <Link to={`/upload/${entry.id}`}>
-          <Button color="primary" variant="contained">
-            Read more
-          </Button>
-        </Link> */}
-        </Paper>
+          </Typography>
+          <Typography component="h5" variant="body1" key={user.artistName}>
+            {user.artistName}
+          </Typography>
+          <Typography compoment="p" variant="body1" key={upload.album}>
+            {upload.album}
+          </Typography>
+          <CardMedia
+            className={ classes.cover }
+            component="img"
+            image={ upload.artwork }
+            title={ upload.artwork }
+          />
+          <>
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+            <IconButton aria-label="delete" onClick={() => setConfirmOpen(true)}>
+              <DeleteIcon />
+            </IconButton>
+            <ConfirmUploadDialog
+              title="delete track?"
+              open={ confirmOpen }
+              setOpen={ setConfirmOpen }
+              onConfirm={ () => handleUploadDelete(upload.id) }
+            >
+              are you sure you want to delete "{upload.name}"?
+            </ConfirmUploadDialog>
+          </>  
+        </Card>
       ))}
     </div>
   )

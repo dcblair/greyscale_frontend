@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button,
         TextField,
@@ -6,6 +6,7 @@ import { Button,
         } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UserModel from '../models/user';
+import { UserContext } from '../components/context';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,8 +21,9 @@ const useStyles = makeStyles((theme) => ({
 const Login = props => {
   const classes = useStyles();
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const { user, currentUser, setCurrentUser } = useContext(UserContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleEmail = e => {
     setEmail(e.target.value)
@@ -38,26 +40,25 @@ const Login = props => {
       email,
       password
     }).then(data => {
+      props.storeUser(data.user)
+      props.setCurrentUser(user.id)
       if(!data.user) {
         console.log('Login unsuccessful')
         return false
       }
-      props.storeUser(data.user)
-      props.storeArtistName(data.artistName)
-      console.log(data.user, data.artistName)
       })
       .catch(err => console.log('Login error', err))
   }
 
 
-  if (props.currentUser) return <Redirect to='/' />
+  if ( currentUser ) return <Redirect to='/' />
 
   return (
     <div>
       <Typography variant="h4">
         Login
       </Typography>
-      <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <form className={ classes.root } noValidate autoComplete="off" onSubmit={ handleSubmit }>
         <div className="form-group">
           <TextField 
             onChange={ handleEmail }

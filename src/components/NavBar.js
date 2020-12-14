@@ -5,8 +5,10 @@ import { Grid,
         Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AccountCircle } from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { UserContext } from './context';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = (props) => {
   const classes = useStyles();
+
+  const { user, setUser, currentUser, logout } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const open = Boolean(anchorEl);
@@ -45,7 +49,7 @@ const NavBar = (props) => {
         justifyContent="space-between"
         justify="center"
       >
-        { props.currentUser ? (
+        { currentUser ? (
           <>
             <IconButton
               className={classes.profileButton}
@@ -59,7 +63,7 @@ const NavBar = (props) => {
             </IconButton>
             <Menu
               id="menu-appbar"
-              anchorEl={anchorEl}
+              anchorEl={ anchorEl }
               anchorOrigin={{
                 horizontal: 'right'
               }}
@@ -67,14 +71,17 @@ const NavBar = (props) => {
               transformOrigin={{
                 horizontal: 'right',
               }}
-              open={open}
-              onClose={handleClose}
+              open={ open }
+              onClose={ handleClose }
             >
-              <MenuItem component={ Link } to={ '/profile' } onClick={ handleClose }>
-                Profile
+              <MenuItem component={ Link } to={ '/music/mine' } onClick={ handleClose }>
+                music
               </MenuItem>
-              <MenuItem component={ Link } to={ '/logout' } onClick={ props.logout }>
-                Logout
+              <MenuItem component={ Link } to={ '/profile' } onClick={ handleClose }>
+                profile
+              </MenuItem>
+              <MenuItem component={ Link } to={ '/logout' } onChange={ handleClose } onClick={ logout }>
+                logout
               </MenuItem>
             </Menu>
           </>

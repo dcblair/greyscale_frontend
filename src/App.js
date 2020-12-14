@@ -4,8 +4,8 @@ import { createMuiTheme, CssBaseline, Paper, ThemeProvider } from '@material-ui/
 import NavBar from './components/NavBar';
 import Player from './components/Player';
 import Routes from './config/Routes';
-import UserModel from './models/user';
 import './App.css';
+import { UserContextProvider } from './components/context';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(localStorage.getItem('id'));
@@ -67,28 +67,15 @@ function App() {
     localStorage.setItem('id', userId)
     setCurrentUser( userId )
   }
-  
-  const logout = (event) => {
-    event.preventDefault()
-  
-    localStorage.removeItem('id')
-    localStorage.removeItem('artistName')
-  
-    UserModel.logout()
-      .then(res => {
-        setCurrentUser(null)
-        return <Redirect to='/' />
-      })
-  }
 
   return (
     <div className="App">
       <ThemeProvider>
         <CssBaseline>
           <Paper>
+            <UserContextProvider>
             <NavBar
               currentUser={ currentUser } 
-              logout={ logout }
               darkMode={ darkMode }
               setDarkMode={ setDarkMode }
             >
@@ -98,6 +85,7 @@ function App() {
               currentUser={ currentUser }
               storeUser={ storeUser }
             />
+            </UserContextProvider>
           </Paper>
         </CssBaseline>
       </ThemeProvider>
