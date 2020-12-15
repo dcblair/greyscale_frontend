@@ -33,7 +33,7 @@ const NavBar = (props) => {
   
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openUpload, setOpenUpload] = useState(false);
   
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -100,17 +100,26 @@ const NavBar = (props) => {
               </MenuItem>
             </Menu>
             <Button
-              // onClick={ openUploadForm }
+              onClick={ () => setOpenUpload(true) }
             >
-
+              upload
             </Button>
-            <Link to={ "/upload/form" }>upload TURN THIS INTO MODAL!</Link> 
           </>
         ): (
           <>
-            <Link to={ "/login" }>login</Link>
-            <Typography variant="body1"> | </Typography>
-            <Link to={ "/register" }>register</Link>
+            <Link to={ "/login" }>
+              <Button
+                style={{textTransform: 'none'}}
+              >
+                login
+              </Button>
+            </Link>
+            <Typography variant="h4"> | </Typography>
+            <Link to={ "/register" }>
+              <Button>
+                register
+              </Button>
+            </Link>
           </>
         )}
 

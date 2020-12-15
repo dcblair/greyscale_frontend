@@ -16,6 +16,7 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 import { MusicContext } from '../components/musicContext';
 import { Grid, Input, Slider } from '@material-ui/core';
 import { VolumeUp } from '@material-ui/icons';
+import UploadModel from '../models/upload';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,13 +49,22 @@ const Player = (props) => {
           setIsPaused,
           number,
           setNumber,
-          upload
+          upload,
+          uploads,
+          setUploads
         } = useContext(MusicContext);
-  const [value, setValue] = useState(60);
-  const [scrubValue, setScrubValue] = useState(0);
+
+  const [value, setValue] = useState(40);
+  // const [currentTime, setCurrentTime] = useState();
+  const [scrubValue, setScrubValue] = useState();
   
-  const handleScrubChange = (event, newValue) => {
-    setScrubValue(newValue);
+  // come back to this!
+  const handleScrubChange = (e, newValue) => {
+    newValue = Ref.current.currentTime
+    setScrubValue(newValue + 20);
+    let currentTime = Ref.current.currentTime
+    let duration = Ref.current.duration
+    console.log(newValue)
   };
 
   // useEffect(() => {
@@ -64,7 +74,6 @@ const Player = (props) => {
   const handleSliderChange = (e, newValue) => {
     setValue(newValue);
     Ref.current.volume = value * .01
-    console.log(Ref.current.currentTime)
   };
 
   const handleInputChange = (e) => {
@@ -89,36 +98,47 @@ const Player = (props) => {
     Ref.current.pause()
     setIsPaused(true)
   }
-
   const handlePrev = () => {
-    setNumber(number - 1)
+    if (number > 0) {
+      setNumber(number - 1)
+      setIsPaused(false)
+    } else if (number === 0) {
+      setIsPaused(false)
+    } else {
+      setNumber(0)
+    }
   }
-
+ 
   const handleNext = () => {
-    setNumber(number + 1)
+    if (number < uploads.length - 1) {
+      setNumber(number + 1)
+      setIsPaused(false)
+    } else {
+      setNumber(uploads.length - 1)
+    }
   }
 
   return (
-    <Card className={classes.root}>
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
+    <Card className={ classes.root }>
+      <div className={ classes.details }>
+        <CardContent className={ classes.content }>
           <Typography component="h6" variant="h6">
-            {upload.name}
+            { uploads && uploads[number].name }
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            {upload.artist}
+            { uploads && uploads[number].artist }
           </Typography>
         </CardContent>
-        <div className={classes.controls}>
+        <div className={ classes.controls }>
           <IconButton aria-label="previous">
-            {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon onClick={ handlePrev } />}
+            { theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon onClick={ handlePrev } /> }
           </IconButton>
           <audio
             id="song"
-            ref={Ref}
-            src={upload.music}
+            ref={ Ref }
+            src={ uploads && uploads[number].music }
             currentTime="seconds"
-            autoPlay={true}
+            autoPlay={ true }
           />
           <IconButton 
             aria-label="play/pause"
@@ -144,8 +164,8 @@ const Player = (props) => {
       </div>
         <CardMedia
           className={ classes.cover }
-          image={ upload.artwork }
-          title={ upload.artwork }
+          image={ uploads && uploads[number].artwork }
+          title={ uploads && uploads[number].artwork }
         />
       <div>
         <Grid
@@ -160,15 +180,15 @@ const Player = (props) => {
             </Grid>
             <Grid item xs>
               <Slider
-                value={typeof value === 'number' ? value : 0}
+                value={ typeof value === 'number' ? value : 0 }
                 onChange={ handleSliderChange }
                 aria-labelledby="input-slider"
               />
             </Grid>
             <Grid item>
               <Input
-                className={classes.input}
-                value={value}
+                className={ classes.input }
+                value={ value }
                 margin="dense"
                 onChange={ handleInputChange }
                 onBlur={ handleBlur }
@@ -183,7 +203,7 @@ const Player = (props) => {
             </Grid>
           </Grid>
           <Grid
-          container
+            container
           >
           <Typography id="continuous-slider" gutterBottom>
             Scrubbing
@@ -195,12 +215,12 @@ const Player = (props) => {
               </Typography>
             </Grid>
             <Grid item xs>
-              <Slider value={scrubValue} onChange={ handleScrubChange }  aria-labelledby="continuous-slider" />
+              <Slider value={ scrubValue } onChange={ handleScrubChange }  aria-labelledby="continuous-slider" />
             </Grid>
             <Typography 
               variant="body1"
             >
-              {Ref.duration}
+              { Ref.duration }
             </Typography>
           </Grid>
           </Grid>

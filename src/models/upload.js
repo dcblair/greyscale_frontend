@@ -1,8 +1,12 @@
 
 class UploadModel {
   // show all uploads
-  static all = () => {
+  static index = () => {
     return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload`).then(res => res.json())
+  }
+
+  static random = () => {
+    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload/random`).then(res => res.json())
   }
 
   // show upload

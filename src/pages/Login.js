@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = props => {
+const Login = (props) => {
   const classes = useStyles();
 
   const { storeUser, currentUser, setCurrentUser } = useContext(UserContext);

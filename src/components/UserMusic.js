@@ -50,15 +50,21 @@ const UserMusic = (props) => {
 
   const Ref = useRef();
 
-  const { user, currentUser, setUser } = useContext(UserContext);
-  const { setIsPaused, setNumber } = useContext(MusicContext);
+  const { user, 
+          currentUser,
+        } = useContext(UserContext);
+  const { setIsPaused,
+          setNumber,
+          uploads,
+          setUploads
+        } = useContext(MusicContext);
 
-  const [uploads, setUploads] = useState('');
+  const [userUploads, setUserUploads] = useState([])
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
       UploadModel.user(currentUser)
-        .then(data => setUploads(data.uploads))
+        .then(data => setUserUploads(data.uploads))
   }, [currentUser])
   
   const handleUploadDelete = (uploadId) => {
@@ -68,20 +74,26 @@ const UserMusic = (props) => {
       )
   }
 
-  const selectTrack = (uploadId) => {
-    setNumber(uploadId)
+  const selectTrack = (uploadName) => {
+    for (let i = 0; i < uploads.length; i++) {
+      if (uploads[i].name === uploadName) {
+        setNumber(i)
+      } else {
+        continue
+      }
+    }
     setIsPaused(false)
   }
 
   return (
     <div>
       <Typography>
-        {user.artistName}'s music
+        { user.artistName }'s music
       </Typography>
-      { (uploads !== '') ? (
-        uploads.map((upload) => (
+      { (userUploads !== '') ? (
+        userUploads.map((upload) => (
         <Card
-          className={classes.Card}
+          className={ classes.Card }
           elevation={1}
           style={{
           display:"inline-block",
@@ -89,14 +101,14 @@ const UserMusic = (props) => {
           padding: 30
           }}
         >
-          <Typography component="h3" variant="h6" key={upload.id}>
-          {upload.name}
+          <Typography component="h3" variant="h6" key={ upload.id }>
+          { upload.name }
           </Typography>
-          <Typography component="h5" variant="body1" key={user.artistName}>
-            {user.artistName}
+          <Typography component="h5" variant="body1" key={ user.artistName }>
+            { user.artistName }
           </Typography>
-          <Typography compoment="p" variant="body1" key={upload.album}>
-            {upload.album}
+          <Typography compoment="p" variant="body1" key={ upload.album }>
+            { upload.album }
           </Typography>
           <CardMedia
             className={ classes.cover }
@@ -105,15 +117,13 @@ const UserMusic = (props) => {
             title={ upload.artwork }
           />
           <>
-            <IconButton
-              onClick={ () => selectTrack(upload.id) }
-            >
+            <IconButton onClick={ () => selectTrack(upload.name) }>
               <PlayCircleFilledIcon />
             </IconButton>
             <IconButton>
               <EditIcon />
             </IconButton>
-            <IconButton aria-label="delete" onClick={() => setConfirmOpen(true)}>
+            <IconButton aria-label="delete" onClick={ () => setConfirmOpen(true) }>
               <DeleteIcon />
             </IconButton>
             <ConfirmUploadDialog
@@ -122,7 +132,7 @@ const UserMusic = (props) => {
               setOpen={ setConfirmOpen }
               onConfirm={ () => handleUploadDelete(upload.id) }
             >
-              are you sure you want to delete "{upload.name}"?
+              are you sure you want to delete "{ upload.name }"?
             </ConfirmUploadDialog>
           </>  
         </Card>
