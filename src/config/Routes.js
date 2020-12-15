@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Home from '../pages/Home'
 import Register from '../pages/Register'
-import Uploads from '../components/Uploads'
+import SearchUploads from '../components/SearchUploads'
 import Login from '../pages/Login'
 import Profile from '../pages/Profile'
 import About from '../pages/About'
@@ -24,7 +24,7 @@ const Routes = (props) => (
     <Route exact path='/' component={ Home } />
     <Route path='/about' component={ About } />
     <Route path='/contact' component={ Contact } />
-    <Route path='/upload/' component={ Uploads } />
+    <Route path='/upload/' component={ SearchUploads } />
     <Route path='/upload/form' component={ UploadForm } />
     <Route path='/Register/' component={ Register } />
     <Route path='/login' render={(routeComponentProps) => {

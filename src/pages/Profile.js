@@ -32,7 +32,6 @@ const Profile = (props) => {
   const classes = useStyles();
 
   const { user, setUser, logout } = useContext(UserContext);
-  const [didSubmit, setDidSubmit] = useState(false);
   const [artistName, setArtistName] = useState('');
   const [image, setImage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -58,16 +57,16 @@ const Profile = (props) => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const image = await uploadImage()
+    const image = await uploadImage();
     UserModel.update({ artistName, image }, userId)
     .then( (data) => {
       setUser({
         artistName,
         image
       })
-    })
+    });
   }
 
   const handleDelete = () => {
@@ -80,7 +79,7 @@ const Profile = (props) => {
   return (
     <div>
         <Paper
-          className={classes.paper}
+          className={ classes.paper }
           elevation={1}
           style={{
           display:"inline-block",
@@ -94,13 +93,13 @@ const Profile = (props) => {
             alignItems="center"
           >
           <Typography>
-            { user.artistName }
+            { user && user.artistName }
           </Typography>
 
             <form
                 noValidate 
                 autoComplete="off"
-                onSubmit={handleSubmit}
+                onSubmit={ handleSubmit }
             >
 
               <div aria-label="artist name textfield">
@@ -110,7 +109,7 @@ const Profile = (props) => {
                   label="artist name"
                   type="text"
                   value={ artistName }
-                  defaultValue={ user.artistName }
+                  defaultValue={ user && user.artistName }
                   onInput={ e => setArtistName(e.target.value) }
                   variant="outlined" 
                 />
@@ -126,17 +125,16 @@ const Profile = (props) => {
 
               <Button
                 type="submit"
-                // onClick={ handleSubmit }
                 className={ classes.button  }
               >
                 submit
               </Button>
             </form>
-            {loading ? (
+            { loading ? (
               <Typography>loading...</Typography>
             ): (
               <>
-              <img src={ image } alt="profile picture" style={{ width: "200px" }}/>
+              <img src={ image && image } alt="profile picture" style={{ width: "200px" }}/>
               </>
             )
             }

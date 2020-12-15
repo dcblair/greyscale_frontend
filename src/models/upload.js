@@ -14,6 +14,10 @@ class UploadModel {
     return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload/${uploadId}`).then(res => res.json())
   }
   
+  static search = (searchInput) => {
+    return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload/search/${searchInput}`).then(res => res.json())
+  }
+
   // show user uploads
   static user = (userId) => {
     return fetch(`${process.env.REACT_APP_INTERNAL_API_URL}/upload/user/${userId}`).then(res => res.json())

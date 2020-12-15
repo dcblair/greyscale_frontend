@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import UserModel from "../../models/user";
 
 export const Context = createContext({});

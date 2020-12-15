@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ExUploads = () => {
+const SearchUploads = (props) => {
   const classes = useStyles();
 
   const { user, currentUser, setUser } = useContext(UserContext);
@@ -49,15 +49,6 @@ const ExUploads = () => {
           setIsPaused, 
           setNumber } = useContext(MusicContext);
 
-  const [exUploads, setExUploads] = useState([])
-  const [upload, setUpload] = useState()
-
-  useEffect(() => {
-    UploadModel.random()
-    .then(data => {
-      setExUploads(data.uploads)
-    })
-  }, [])
 
   const selectTrack = (uploadName) => {
     for (let i = 0; i < uploads.length; i++) {
@@ -72,7 +63,7 @@ const ExUploads = () => {
 
   return (
     <div>
-    { exUploads && exUploads.map((upload) => (
+    { props.searchUploads && props.searchUploads.map((upload) => (
       <Card
           className={classes.Card}
           elevation={1}
@@ -82,13 +73,13 @@ const ExUploads = () => {
           padding: 30
           }}
         >
-          <Typography component="h3" variant="h6" key={upload.id}>
+          <Typography component="h3" variant="h6" key={upload.id} gutterBottom>
           {upload.name}
           </Typography>
-          <Typography component="h5" variant="body1" key={user.artistName}>
-            {user.artistName}
+          <Typography component="h5" variant="body1" key={user.artistName} gutterBottom>
+            {upload.artist}
           </Typography>
-          <Typography compoment="p" variant="body1" key={upload.album}>
+          <Typography compoment="p" variant="body1" key={upload.album} gutterBottom>
             {upload.album}
           </Typography>
           <CardMedia
@@ -109,4 +100,4 @@ const ExUploads = () => {
   )
 }
 
-export default ExUploads
+export default SearchUploads

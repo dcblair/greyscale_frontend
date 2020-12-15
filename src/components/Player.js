@@ -2,7 +2,6 @@ import React, { useContext,
               useEffect,
               useRef,
               useState } from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -16,7 +15,6 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 import { MusicContext } from '../components/musicContext';
 import { Grid, Input, Slider } from '@material-ui/core';
 import { VolumeUp } from '@material-ui/icons';
-import UploadModel from '../models/upload';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,15 +47,13 @@ const Player = (props) => {
           setIsPaused,
           number,
           setNumber,
-          upload,
           uploads,
-          setUploads
         } = useContext(MusicContext);
 
   const [value, setValue] = useState(40);
   // const [currentTime, setCurrentTime] = useState();
   const [scrubValue, setScrubValue] = useState();
-  
+
   // come back to this!
   const handleScrubChange = (e, newValue) => {
     newValue = Ref.current.currentTime
@@ -88,7 +84,7 @@ const Player = (props) => {
       setValue(100);
     }
   };
-  
+
   const handlePlay = () => {
     Ref.current.play()
     setIsPaused(false)
@@ -98,6 +94,7 @@ const Player = (props) => {
     Ref.current.pause()
     setIsPaused(true)
   }
+
   const handlePrev = () => {
     if (number > 0) {
       setNumber(number - 1)
@@ -165,7 +162,7 @@ const Player = (props) => {
         <CardMedia
           className={ classes.cover }
           image={ uploads && uploads[number].artwork }
-          title={ uploads && uploads[number].artwork }
+          title={ uploads && uploads[number].name }
         />
       <div>
         <Grid

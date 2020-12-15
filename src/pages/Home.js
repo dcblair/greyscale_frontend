@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import ExUploads from '../components/ExUploads';
 import UploadForm from '../components/UploadForm';
 import { UserContext } from '../components/userContext';
 import { fade, InputBase, makeStyles } from '@material-ui/core';
+import SearchUploads from '../components/SearchUploads';
+import UploadModel from '../models/upload';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -38,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -52,6 +53,16 @@ const Home = (props) => {
   const classes = useStyles();
 
   const { currentUser } = useContext(UserContext)
+  const [searchInput, setSearchInput] = useState('');
+  const [searchUploads, setSearchUploads] = useState([])
+
+  useEffect(() => {
+    UploadModel.search(searchInput)
+    .then(data => {
+      setSearchUploads(data.uploads)
+      console.log(searchUploads, searchInput)
+    })
+  }, [searchInput])
 
   return (
     <div>
@@ -64,6 +75,8 @@ const Home = (props) => {
             </div>
             <InputBase
               placeholder="search..."
+              onChange= { (e) => { setSearchInput(e.target.value) } }
+              value={ searchInput }
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -71,6 +84,11 @@ const Home = (props) => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          <SearchUploads 
+            searchUploads={ props.searchUploads }
+            setSearchUploads= { props.searchUploads }
+
+          />
         </>
       ) : (
         <>

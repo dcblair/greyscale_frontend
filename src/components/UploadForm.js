@@ -4,8 +4,7 @@ import { Button,
         Switch,
         TextField,
         Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState } from 'react';
 import UploadModel from '../models/upload';
 import { useHistory } from 'react-router-dom';
 
@@ -35,9 +34,10 @@ const UploadForm = () => {
         body: data
       }
     )
-    const file = await res.json()
-    setArtwork(file.secure_url)
+    let file = await res.json()
+    file = await file.secure_url
     setLoading(false)
+    return file
   }
 
   const uploadMusic = async () => {
@@ -54,24 +54,26 @@ const UploadForm = () => {
         body: data
       }
       )
-      const file = await res.json()
-      setMusic(file.secure_url)
-      setLoading(false)
+      let file = await res.json()
+      file = await file.secure_url
+      return file
   }
     
-  useEffect(() => {
-    if (typeof music === "string" && typeof artwork === "string") {
-      const userId = localStorage.getItem("id")
-      UploadModel.create({ userId, labelId, name, music, artist, album, isPublic, genre, artwork })
-    }
-  }, [music, artwork])
+  // useEffect(() => {
+  //   if (typeof music === "string" && typeof artwork === "string") {
+  //     const userId = localStorage.getItem("id")
+  //     UploadModel.create({ userId, labelId, name, music, artist, album, isPublic, genre, artwork })
+  //   }
+  // }, [music, artwork])
 
   const handleSubmit = async e => {
-    e.preventDefault()
+    e.preventDefault();
 
+    const music = await uploadMusic();
+    const artwork = await uploadArtwork();
     if(name && artist && album && genre && music && artwork) {
-      await uploadMusic()
-      await uploadArtwork()
+      const userId = localStorage.getItem("id");
+      UploadModel.create({ userId, labelId, name, music, artist, album, isPublic, genre, artwork })
       return history.push('/music/mine')
     } else {
       console.log("Please make sure all fields are full and files are uploaded.")
