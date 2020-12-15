@@ -13,7 +13,6 @@ import { MusicContext } from './musicContext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import UserModel from '../models/user';
 import ConfirmUploadDialog from './ConfirmUploadDialog';
 import { Link } from 'react-router-dom';
 
@@ -64,7 +63,9 @@ const UserMusic = (props) => {
 
   useEffect(() => {
       UploadModel.user(currentUser)
-        .then(data => setUserUploads(data.uploads))
+        .then(data => {
+          setUserUploads(data.uploads)
+        })
   }, [currentUser])
   
   const handleUploadDelete = (uploadId) => {

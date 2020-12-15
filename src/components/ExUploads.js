@@ -49,23 +49,30 @@ const ExUploads = () => {
           setIsPaused, 
           setNumber } = useContext(MusicContext);
 
+  const [exUploads, setExUploads] = useState([])
   const [upload, setUpload] = useState()
-
 
   useEffect(() => {
     UploadModel.random()
     .then(data => {
-      setUploads(data.uploads)})
+      setExUploads(data.uploads)
+    })
   }, [])
 
-  const selectTrack = (uploadId) => {
-    setNumber(uploadId)
+  const selectTrack = (uploadName) => {
+    for (let i = 0; i < uploads.length; i++) {
+      if (uploads[i].name === uploadName) {
+        setNumber(i)
+      } else {
+        continue
+      }
+    }
     setIsPaused(false)
   }
 
   return (
     <div>
-    {/* { uploads && uploads.map((upload) => (
+    { exUploads && exUploads.map((upload) => (
       <Card
           className={classes.Card}
           elevation={1}
@@ -75,7 +82,7 @@ const ExUploads = () => {
           padding: 30
           }}
         >
-          <Typography component="h3" variant="h6" key={uploads.id}>
+          <Typography component="h3" variant="h6" key={upload.id}>
           {upload.name}
           </Typography>
           <Typography component="h5" variant="body1" key={user.artistName}>
@@ -91,13 +98,13 @@ const ExUploads = () => {
             title={ upload.artwork }
           />
           <>
-            <IconButton onClick={ () => selectTrack(upload.id) }>
+            <IconButton onClick={ () => selectTrack(upload.name) }>
               <PlayCircleFilledIcon />
             </IconButton>
           </>  
         </Card>
     ))
-    } */}
+    }
     </div>
   )
 }

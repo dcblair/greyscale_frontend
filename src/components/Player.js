@@ -108,7 +108,7 @@ const Player = (props) => {
       setNumber(0)
     }
   }
- 
+
   const handleNext = () => {
     if (number < uploads.length - 1) {
       setNumber(number + 1)

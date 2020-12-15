@@ -63,8 +63,10 @@ const Profile = (props) => {
     const image = await uploadImage()
     UserModel.update({ artistName, image }, userId)
     .then( (data) => {
-      setArtistName(data.artistName)
-      setImage(data.image)
+      setUser({
+        artistName,
+        image
+      })
     })
   }
 
