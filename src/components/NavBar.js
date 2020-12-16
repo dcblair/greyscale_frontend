@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   homeButton: {
-    marginRight: '1rem',
+    marginRight: '2rem',
   },
   profileButton: {
     marginLeft: '1rem'
@@ -47,12 +47,12 @@ const NavBar = (props) => {
   };
 
   return (
-    <div>
       <Grid
         container
         display="flex"
         flexDirection="row"
-        justifyContent="space-between"
+        justifyContent="center"
+        verticalAlign="center"
       >
       <Link to={'/'}>
         <Tooltip title='home'>
@@ -151,7 +151,6 @@ const NavBar = (props) => {
           </>
         )}
       </Grid>
-    </div>
   )
 }
 
