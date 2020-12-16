@@ -86,7 +86,7 @@ const Login = (props) => {
           color="primary" 
           type="submit"
         >
-          Login
+          login
         </Button>
       </form>
     </div>

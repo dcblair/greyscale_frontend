@@ -49,7 +49,11 @@ const Register = props => {
   return (
     <div>
       <h4>Register</h4>
-      <form className={classes.root} noValidate autoComplete="off">
+      <form
+        className={ classes.root } 
+        noValidate
+        autoComplete="off"
+      >
         <div className="form-group">
           <TextField
             onChange={ handleArtistName } 
@@ -88,6 +92,7 @@ const Register = props => {
             required
           />
         </div>
+
         <div className="form-group">
           <TextField
             onChange={ handleConfirmPassword } 
@@ -107,7 +112,7 @@ const Register = props => {
           color="primary" 
           type="submit"
         >
-          Register
+          register
         </Button>
       </form>
     </div>
