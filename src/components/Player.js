@@ -51,21 +51,20 @@ const Player = (props) => {
         } = useContext(MusicContext);
 
   const [value, setValue] = useState(40);
-  // const [currentTime, setCurrentTime] = useState();
-  const [scrubValue, setScrubValue] = useState();
+  const [interval] = useState(null);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [scrubValue, setScrubValue] = useState(0);
+  const [progress, setProgress] = useState(null);
+  const [duration, setDuration] = useState(null);
+  const [autoPlay, setAutoPlay] = useState(false);
+  const [ready, setReady] = useState(false);
 
   // come back to this!
-  const handleScrubChange = (e, newValue) => {
-    newValue = Ref.current.currentTime
-    setScrubValue(newValue + 20);
-    let currentTime = Ref.current.currentTime
-    let duration = Ref.current.duration
-    console.log(newValue)
+  const handleScrubChange = async (e, newValue) => {
+    // scrubValue = await Ref.current.currentTime
+    setProgress(newValue)
+    setCurrentTime(progress)
   };
-
-  // useEffect(() => {
-  //   console.log(Ref.current.currentTime)
-  // }, [Ref.current.currentTime])
 
   const handleSliderChange = (e, newValue) => {
     setValue(newValue);
@@ -88,14 +87,22 @@ const Player = (props) => {
   const handlePlay = () => {
     Ref.current.play()
     setIsPaused(false)
+    setAutoPlay(true)
+    setInterval(() => {
+      setCurrentTime(Ref.current.currentTime);
+      setProgress(Math.round((Ref.current.currentTime / Ref.current.duration) * 100))
+      setScrubValue(progress)
+    }, 100);
   }
 
   const handlePause = () => {
+    clearInterval(interval)
     Ref.current.pause()
     setIsPaused(true)
   }
 
   const handlePrev = () => {
+    setReady(false)
     if (number > 0) {
       setNumber(number - 1)
       setIsPaused(false)
@@ -107,6 +114,7 @@ const Player = (props) => {
   }
 
   const handleNext = () => {
+    setReady(false)
     if (number < uploads.length - 1) {
       setNumber(number + 1)
       setIsPaused(false)
@@ -115,12 +123,29 @@ const Player = (props) => {
     }
   }
 
+  const getTime = (time) => {
+    if (ready) {
+      let hours = Math.floor(time / 3600)
+      let minutes = Math.floor((time % 3600) / 60)
+      let seconds = Math.floor(time % 60)
+  
+      let songTime = '';
+      if (hours > 0) {
+        songTime += `${hours}:${minutes < 10 ? '0': ''}`
+      }
+  
+      songTime += `${minutes}:${seconds < 10 ? '0': ''}`
+      songTime += `${seconds}`
+      return songTime
+    }
+  }
+
   return (
     <Card className={ classes.root }>
       <div className={ classes.details }>
         <CardContent className={ classes.content }>
           <Typography component="h6" variant="h6">
-            { uploads && uploads[number].name }
+            { uploads && ready && uploads[number].name }
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
             { uploads && uploads[number].artist }
@@ -134,8 +159,9 @@ const Player = (props) => {
             id="song"
             ref={ Ref }
             src={ uploads && uploads[number].music }
+            onLoadedData={ () => setReady(true) }
             currentTime="seconds"
-            autoPlay={ true }
+            autoPlay={ autoPlay }
           />
           <IconButton 
             aria-label="play/pause"
@@ -208,16 +234,20 @@ const Player = (props) => {
           <Grid container spacing={2}>
             <Grid item>
               <Typography variant="body1">
-                0:00
+                { ready && uploads ? getTime(progress): "" }
               </Typography>
             </Grid>
             <Grid item xs>
-              <Slider value={ scrubValue } onChange={ handleScrubChange }  aria-labelledby="continuous-slider" />
+              <Slider 
+                value={ progress }
+                onChange={ handleScrubChange }
+                max={ ready && uploads ? Ref.current.duration: 0 }
+                aria-labelledby="continuous-slider" />
             </Grid>
             <Typography 
               variant="body1"
             >
-              { Ref.duration }
+              { ready && uploads ? getTime(Ref.current.duration): "" }
             </Typography>
           </Grid>
           </Grid>

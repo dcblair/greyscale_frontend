@@ -3,7 +3,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import ExUploads from '../components/ExUploads';
 import UploadForm from '../components/UploadForm';
 import { UserContext } from '../components/userContext';
-import { fade, InputBase, makeStyles } from '@material-ui/core';
+import { fade, IconButton, InputBase, makeStyles } from '@material-ui/core';
 import SearchUploads from '../components/SearchUploads';
 import UploadModel from '../models/upload';
 
@@ -52,17 +52,17 @@ const useStyles = makeStyles((theme) => ({
 const Home = (props) => {
   const classes = useStyles();
 
-  const { currentUser } = useContext(UserContext)
+  const { currentUser } = useContext(UserContext);
   const [searchInput, setSearchInput] = useState('');
-  const [searchUploads, setSearchUploads] = useState([])
+  const [searchUploads, setSearchUploads] = useState([]);
 
-  useEffect(() => {
+  const searchTerm = () => {
     UploadModel.search(searchInput)
-    .then(data => {
-      setSearchUploads(data.uploads)
-      console.log(searchUploads, searchInput)
+    .then((data) => {
+      setSearchUploads(data.upload)
+      console.log(searchUploads)
     })
-  }, [searchInput])
+  }
 
   return (
     <div>
@@ -71,7 +71,6 @@ const Home = (props) => {
           <UploadForm />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
             </div>
             <InputBase
               placeholder="search..."
@@ -83,10 +82,15 @@ const Home = (props) => {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
+            <IconButton
+              onClick={ searchTerm }
+            >
+              <SearchIcon />
+            </IconButton>
           </div>
           <SearchUploads 
-            searchUploads={ props.searchUploads }
-            setSearchUploads= { props.searchUploads }
+            searchUploads={ searchUploads }
+            setSearchUploads= { searchUploads }
 
           />
         </>
