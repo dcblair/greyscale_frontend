@@ -9,7 +9,6 @@ import { Button,
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import React, { useContext, useEffect, useState } from 'react';
 import UploadModel from '../models/upload';
-import { UserContext } from './userContext';
 import { MusicContext } from './musicContext';
 
 
@@ -43,14 +42,13 @@ const useStyles = makeStyles((theme) => ({
 const ExUploads = () => {
   const classes = useStyles();
 
-  const { user, currentUser, setUser } = useContext(UserContext);
   const { uploads,
-          setUploads,
           setIsPaused, 
-          setNumber } = useContext(MusicContext);
+          setNumber,
+          setReady,
+        } = useContext(MusicContext);
 
   const [exUploads, setExUploads] = useState([])
-  const [upload, setUpload] = useState()
 
   useEffect(() => {
     UploadModel.random()
@@ -63,6 +61,7 @@ const ExUploads = () => {
     for (let i = 0; i < uploads.length; i++) {
       if (uploads[i].name === uploadName) {
         setNumber(i)
+        setReady(false)
       } else {
         continue
       }
@@ -82,14 +81,14 @@ const ExUploads = () => {
           padding: 30
           }}
         >
-          <Typography component="h3" variant="h6" key={upload.id}>
-          {upload.name}
+          <Typography component="h3" variant="h6" key={ upload.id }>
+            { upload.name }
           </Typography>
-          <Typography component="h5" variant="body1" key={user.artistName}>
-            {user.artistName}
+          <Typography component="h5" variant="body1" key={ upload.artist }>
+            { upload.artist }
           </Typography>
-          <Typography compoment="p" variant="body1" key={upload.album}>
-            {upload.album}
+          <Typography compoment="p" variant="body1" key={ upload.album }>
+            { upload.album }
           </Typography>
           <CardMedia
             className={ classes.cover }

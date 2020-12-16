@@ -14,28 +14,27 @@ export const Provider = ({ children }) => {
   const [upload, setUpload] = useState('');
   const [uploads, setUploads] = useState();
   const [isPaused, setIsPaused] = useState(true);
-  const [duration, setDuration] = useState(null);
+  const [ready, setReady] = useState(false);
+  const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
     UploadModel.index()
       .then(data => {
         setUploads(data.uploads)
       })
-  }, [number])
+  }, [number, isChanged])
 
 
   const musicContext = {
-    upload,
-    setUpload,
-    uploads,
-    setUploads,
-    number,
-    setNumber,
-    isPaused,
-    setIsPaused
+    upload, setUpload,
+    uploads, setUploads,
+    number, setNumber,
+    isPaused, setIsPaused,
+    ready, setReady,
+    isChanged, setIsChanged
   }
 
-  return <Context.Provider value={ musicContext }>{children}</Context.Provider>;
+  return <Context.Provider value={ musicContext }>{ children }</Context.Provider>;
 }
 
 export const { Consumer } = Context;

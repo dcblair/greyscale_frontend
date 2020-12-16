@@ -1,15 +1,12 @@
 import { Button, 
   Card,
   CardMedia,
-  Grid,
   IconButton,
   makeStyles, 
   Typography,
 } from '@material-ui/core';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import React, { useContext, useEffect, useState } from 'react';
-import UploadModel from '../models/upload';
-import { UserContext } from './userContext';
+import React, { useContext } from 'react';
 import { MusicContext } from './musicContext';
 
 
@@ -43,17 +40,18 @@ const useStyles = makeStyles((theme) => ({
 const SearchUploads = (props) => {
   const classes = useStyles();
 
-  const { user, currentUser, setUser } = useContext(UserContext);
   const { uploads,
-          setUploads,
           setIsPaused, 
-          setNumber } = useContext(MusicContext);
+          setNumber,
+          setReady
+        } = useContext(MusicContext);
 
 
   const selectTrack = (uploadName) => {
     for (let i = 0; i < uploads.length; i++) {
       if (uploads[i].name === uploadName) {
         setNumber(i)
+        setReady(false)
       } else {
         continue
       }
@@ -73,13 +71,13 @@ const SearchUploads = (props) => {
           padding: 30
           }}
         >
-          <Typography component="h3" variant="h6" key={upload.id} gutterBottom>
+          <Typography component="h3" variant="h6" key={ upload.id } gutterBottom>
           {upload.name}
           </Typography>
-          <Typography component="h5" variant="body1" key={user.artistName} gutterBottom>
+          <Typography component="h5" variant="body1" key={ upload.artist } gutterBottom>
             {upload.artist}
           </Typography>
-          <Typography compoment="p" variant="body1" key={upload.album} gutterBottom>
+          <Typography compoment="p" variant="body1" key={ upload.album } gutterBottom>
             {upload.album}
           </Typography>
           <CardMedia

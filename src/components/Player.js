@@ -1,5 +1,4 @@
 import React, { useContext,
-              useEffect,
               useRef,
               useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -43,11 +42,10 @@ const Player = (props) => {
   const theme = useTheme();
   const Ref = useRef();
 
-  const { isPaused,
-          setIsPaused,
-          number,
-          setNumber,
-          uploads,
+  const { uploads,
+          isPaused, setIsPaused,
+          number, setNumber,
+          ready, setReady
         } = useContext(MusicContext);
 
   const [value, setValue] = useState(40);
@@ -57,7 +55,6 @@ const Player = (props) => {
   const [progress, setProgress] = useState(null);
   const [duration, setDuration] = useState(null);
   const [autoPlay, setAutoPlay] = useState(false);
-  const [ready, setReady] = useState(false);
 
   // come back to this!
   const handleScrubChange = async (e, newValue) => {
@@ -194,9 +191,6 @@ const Player = (props) => {
         <Grid
           container
         >
-          <Typography id="input-slider" gutterBottom>
-            Volume
-          </Typography>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <VolumeUp />
@@ -205,7 +199,7 @@ const Player = (props) => {
               <Slider
                 value={ typeof value === 'number' ? value : 0 }
                 onChange={ handleSliderChange }
-                aria-labelledby="input-slider"
+                aria-labelledby="volume-slider"
               />
             </Grid>
             <Grid item>
@@ -220,7 +214,7 @@ const Player = (props) => {
                   min: 0,
                   max: 100,
                   type: 'number',
-                  'aria-labelledby': 'input-slider',
+                  'aria-labelledby': 'progress-bar',
                 }}
               />
             </Grid>
@@ -228,9 +222,6 @@ const Player = (props) => {
           <Grid
             container
           >
-          <Typography id="continuous-slider" gutterBottom>
-            Scrubbing
-          </Typography>
           <Grid container spacing={2}>
             <Grid item>
               <Typography variant="body1">

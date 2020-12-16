@@ -1,5 +1,4 @@
-import { Button, 
-        Card,
+import { Card,
         CardMedia,
         Grid,
         IconButton,
@@ -11,11 +10,7 @@ import UploadModel from '../models/upload';
 import { UserContext } from './userContext';
 import { MusicContext } from './musicContext';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-// import ConfirmUploadDialog from './ConfirmUploadDialog';
-import { Link } from 'react-router-dom';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,43 +44,38 @@ const UserMusic = (props) => {
 
   const Ref = useRef();
 
-  const { user, 
-          currentUser,
-        } = useContext(UserContext);
+  const { user, currentUser} = useContext(UserContext);
   const { setIsPaused,
           setNumber,
           uploads,
-          setUploads
+          setReady,
+          isChanged,
+          setIsChanged
         } = useContext(MusicContext);
-  // const [delKey, setDelKey] = useState();
+
   const [userUploads, setUserUploads] = useState([]);
-  // const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
       UploadModel.user(currentUser)
         .then(data => {
           setUserUploads(data.uploads)
         })
-  }, [currentUser])
+  }, [currentUser, isChanged])
   
-    const handleUploadDelete = async (uploadId) => {
-      console.log(uploadId)
-      await UploadModel.delete(user, uploadId)
-        setUserUploads(
-          userUploads.filter(upload => {
-            return upload.id !== upload }
-          ))
-    }
-
-  // const handleDialog = () => {
-  //   setDelKey(upload.id);
-  //   setConfirmOpen(true);
-  // }
+  const handleUploadDelete = async (uploadId) => {
+    await UploadModel.delete(user, uploadId)
+    await setIsChanged(true)
+    await setUserUploads(
+        userUploads.filter(upload => {
+          return upload.id !== upload }
+        ))
+  }
 
   const selectTrack = (uploadName) => {
     for (let i = 0; i < uploads.length; i++) {
       if (uploads[i].name === uploadName) {
         setNumber(i)
+        setReady(false)
       } else {
         continue
       }
@@ -95,7 +85,9 @@ const UserMusic = (props) => {
 
   return (
     <div>
-      <Typography>
+      <Typography variant="h6"
+      style={{padding: 20}}
+      >
         { user.artistName }'s music
       </Typography>
       { (userUploads !== '') ? (
@@ -112,8 +104,8 @@ const UserMusic = (props) => {
           <Typography component="h3" variant="h6" key={ upload.id }>
           { upload.name }
           </Typography>
-          <Typography component="h5" variant="body1" key={ user.artistName }>
-            { user.artistName }
+          <Typography component="h5" variant="body1" key={ upload.artist }>
+            { upload.artist }
           </Typography>
           <Typography compoment="p" variant="body1" key={ upload.album }>
             { upload.album }
@@ -128,9 +120,6 @@ const UserMusic = (props) => {
             <IconButton onClick={ () => selectTrack(upload.name) }>
               <PlayCircleFilledIcon />
             </IconButton>
-            <IconButton>
-              <EditIcon />
-            </IconButton>
             <IconButton aria-label="delete" onClick={ () => handleUploadDelete(upload.id) } >
               <DeleteIcon />
             </IconButton>
@@ -138,17 +127,9 @@ const UserMusic = (props) => {
         </Card>
       ))
       ) : (
-          <Link to={ "/UploadForm" }>upload music</Link>
+        <Typography variant="h6">no uploads, yet.</Typography>
       )
       }
-            {/* <ConfirmUploadDialog
-              title="delete track?"
-              open={ confirmOpen }
-              setOpen={ setConfirmOpen }
-              onConfirm={ () => handleUploadDelete(upload.id) }
-            >
-              are you sure you want to delete "{ upload.name }"?
-            </ConfirmUploadDialog> */}
     </div>
   )
 }

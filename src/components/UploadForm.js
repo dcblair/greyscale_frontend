@@ -1,15 +1,39 @@
 import { Button,
         Grid,
         Input,
+        makeStyles,
         Switch,
         TextField,
         Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import UploadModel from '../models/upload';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from './userContext';
 
-const UploadForm = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+  div: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  }
+}));
+
+const UploadForm = (props) => {
+  const classes = useStyles();
+
   const history = useHistory();
+
+  const { user, currentUser} = useContext(UserContext);
 
   const [name, setName] = useState('');
   const [album, setAlbum] = useState('');
@@ -58,13 +82,6 @@ const UploadForm = () => {
       file = await file.secure_url
       return file
   }
-    
-  // useEffect(() => {
-  //   if (typeof music === "string" && typeof artwork === "string") {
-  //     const userId = localStorage.getItem("id")
-  //     UploadModel.create({ userId, labelId, name, music, artist, album, isPublic, genre, artwork })
-  //   }
-  // }, [music, artwork])
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -81,15 +98,15 @@ const UploadForm = () => {
   }
 
   return (
-    <div>
-      <form action="" id="uploadForm">
+    <div className={ classes.div }>
+      <form className={ classes.form } action="" id="uploadForm">
         <div aria-label="Entry title textfield">
           <TextField 
             id="outlined-basic" 
             label="track name"
             type="text"
-            value={name} 
-            onInput={ e => setName(e.target.value)}
+            value={ name } 
+            onInput={ (e) => setName(e.target.value) }
             variant="outlined" 
           />
         </div>
@@ -98,9 +115,9 @@ const UploadForm = () => {
           <TextField
             id="outlined-multiline-static"
             label="artist name"
-            value={artist}
+            value={ artist }
             type="text"
-            onInput={ e => setArtist(e.target.value)}
+            onInput={ (e) => setArtist(e.target.value) }
             variant="outlined"
           />
         </div>
@@ -109,9 +126,9 @@ const UploadForm = () => {
           <TextField
             id="outlined-multiline-static"
             label="album name"
-            value={album}
+            value={ album }
             type="text"
-            onInput={ e => setAlbum(e.target.value)}
+            onInput={ (e) => setAlbum(e.target.value) }
             variant="outlined"
           />
         </div>
@@ -120,9 +137,9 @@ const UploadForm = () => {
           <TextField
             id="outlined-multiline-static"
             label="genre"
-            value={genre}
+            value={ genre }
             type="text"
-            onInput={ e => setGenre(e.target.value)}
+            onInput={ (e) => setGenre(e.target.value) }
             variant="outlined"
           />
         </div>
@@ -133,17 +150,17 @@ const UploadForm = () => {
             label="label id"
             value={labelId}
             type="text"
-            onInput={ e => setLabelId(e.target.value)}
+            onInput={ (e) => setLabelId(e.target.value) }
             variant="outlined"
           />
         </div>
 
-        <Typography variant="body1">music file</Typography>
+        <Typography variant="body1">music file (mp3 only)</Typography>
         <Input
           type="file"
           name="file"
           placeholder="upload music"
-          onChange={e => {setMusic(e.target.files)} }
+          onChange={ (e) => setMusic(e.target.files) }
         />
 
         <Typography variant="body1">album artwork</Typography>
@@ -151,7 +168,7 @@ const UploadForm = () => {
           type="file"
           name="file"
           placeholder="upload album artwork"
-          onChange={e => {setArtwork(e.target.files)} }
+          onChange={ (e) => setArtwork(e.target.files) }
         />
 
         <Grid>
@@ -161,32 +178,32 @@ const UploadForm = () => {
             justify="center"
             alignItems="center"
           >
-            <Grid item>Private</Grid>
+            <Grid item>private</Grid>
             <Grid item>
               <Switch
-                checked={isPublic}
-                onChange={() => setIsPublic(!isPublic)}
+                checked={ isPublic }
+                onChange={ () => setIsPublic(!isPublic) }
                 color="primary"
                 name="privacy"
                 label="publicOrPrivate"
               />
             </Grid>
-            <Grid item> Public</Grid>
+            <Grid item>public</Grid>
           </Grid>
         </Grid>
         <Button
           onClick={ handleSubmit }
         >
-          Submit
+          submit
         </Button>
       </form>
 
-        {loading ? (
-          <Typography>loading...</Typography>
-        ): (
-          <img src={artwork} alt="album artwork" style={{width: "200px"}}/>
-        )
-        }
+      { loading ? (
+        <Typography>loading...</Typography>
+      ): (
+        <img src={ artwork } alt="album artwork" style={{ width: "100px" }}/>
+      )
+      }
     </div>
   )
 }

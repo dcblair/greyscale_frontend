@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import ExUploads from '../components/ExUploads';
-import UploadForm from '../components/UploadForm';
 import { UserContext } from '../components/userContext';
 import { fade, IconButton, InputBase, makeStyles } from '@material-ui/core';
 import SearchUploads from '../components/SearchUploads';
@@ -54,44 +53,53 @@ const Home = (props) => {
 
   const { currentUser } = useContext(UserContext);
   const [searchInput, setSearchInput] = useState('');
-  const [searchUploads, setSearchUploads] = useState([]);
+  const [searchUploads, setSearchUploads] = useState();
 
-  const searchTerm = () => {
-    UploadModel.search(searchInput)
-    .then((data) => {
-      setSearchUploads(data.upload)
-      console.log(searchUploads)
-    })
+  async function searchTerm(e) {
+    e.preventDefault();
+
+    try {
+      const data = await UploadModel.search(searchInput)
+        setSearchUploads(data.uploads)
+        setSearchInput('')
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
 
   return (
     <div>
       { currentUser ? (
         <>
-          <UploadForm />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
             </div>
-            <InputBase
-              placeholder="search..."
-              onChange= { (e) => { setSearchInput(e.target.value) } }
-              value={ searchInput }
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-            <IconButton
-              onClick={ searchTerm }
+            <form
+              onSubmit={ searchTerm }
+              noValidate
             >
-              <SearchIcon />
-            </IconButton>
+              <InputBase
+                placeholder="search for music..."
+                onChange= { (e) => { setSearchInput(e.target.value) } }
+                value={ searchInput }
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+              <IconButton type="submit">
+                <SearchIcon />
+              </IconButton>
+            </form>
           </div>
+          {
+
+          }
           <SearchUploads 
             searchUploads={ searchUploads }
             setSearchUploads= { searchUploads }
-
           />
         </>
       ) : (
