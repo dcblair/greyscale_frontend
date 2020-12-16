@@ -7,7 +7,7 @@ import { Button,
         Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
 import UploadModel from '../models/upload';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { UserContext } from './userContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,9 +32,9 @@ const UploadForm = (props) => {
   const classes = useStyles();
 
   const history = useHistory();
-
+  
   const { user, currentUser} = useContext(UserContext);
-
+  
   const [name, setName] = useState('');
   const [album, setAlbum] = useState('');
   const [artwork, setArtwork] = useState('');
@@ -44,6 +44,8 @@ const UploadForm = (props) => {
   const [genre, setGenre] = useState('');
   const [isPublic, setIsPublic] = useState(true);
   const [loading, setLoading] = useState(false);
+  
+  let location = useLocation();
 
   const uploadArtwork = async () => {
     const files = artwork
@@ -91,7 +93,12 @@ const UploadForm = (props) => {
     if(name && artist && album && genre && music && artwork) {
       const userId = localStorage.getItem("id");
       UploadModel.create({ userId, labelId, name, music, artist, album, isPublic, genre, artwork })
-      return history.push('/music/mine')
+      props.setOpenUploadDialog(false)
+      if (location.pathname === '/music/mine') {
+        window.location.reload()
+      } else {
+        return history.push('/music/mine')
+      }
     } else {
       console.log("Please make sure all fields are full and files are uploaded.")
     }
@@ -105,7 +112,7 @@ const UploadForm = (props) => {
             id="outlined-basic" 
             label="track name"
             type="text"
-            value={ name } 
+            value={ name }
             onInput={ (e) => setName(e.target.value) }
             variant="outlined" 
           />
@@ -201,7 +208,7 @@ const UploadForm = (props) => {
       { loading ? (
         <Typography>loading...</Typography>
       ): (
-        <img src={ artwork } alt="album artwork" style={{ width: "100px" }}/>
+        <Typography>success!</Typography>
       )
       }
     </div>

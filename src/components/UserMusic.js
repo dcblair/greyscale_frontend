@@ -48,9 +48,7 @@ const UserMusic = (props) => {
   const { setIsPaused,
           setNumber,
           uploads,
-          setReady,
-          isChanged,
-          setIsChanged
+          setReady
         } = useContext(MusicContext);
 
   const [userUploads, setUserUploads] = useState([]);
@@ -60,15 +58,11 @@ const UserMusic = (props) => {
         .then(data => {
           setUserUploads(data.uploads)
         })
-  }, [currentUser, isChanged])
+  }, [currentUser])
   
   const handleUploadDelete = async (uploadId) => {
-    await UploadModel.delete(user, uploadId)
-    await setIsChanged(true)
-    await setUserUploads(
-        userUploads.filter(upload => {
-          return upload.id !== upload }
-        ))
+    UploadModel.delete(user, uploadId)
+    window.location.reload()
   }
 
   const selectTrack = (uploadName) => {

@@ -126,7 +126,9 @@ const NavBar = (props) => {
               openUploadDialog={ openUploadDialog }
               setOpenUploadDialog={ setOpenUploadDialog }
             >
-              <UploadForm/>
+              <UploadForm
+                setOpenUploadDialog={ setOpenUploadDialog }
+              />
             </UploadDialog>
           </>
         ): (
