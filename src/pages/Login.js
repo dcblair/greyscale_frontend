@@ -59,10 +59,9 @@ const useStyles = makeStyles((theme) => ({
 const Login = (props) => {
   const classes = useStyles();
 
-  const { storeUser, currentUser, setCurrentUser } = useContext(UserContext);
+  const { storeUser, currentUser } = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginFail, setLoginFail] = useState(false);
 
   const handleEmail = e => {
     setEmail(e.target.value)
@@ -85,7 +84,6 @@ const Login = (props) => {
       }
       })
       .catch(err => {
-        setLoginFail(false)
         console.log('Login error', err)})
   }
 
@@ -108,7 +106,7 @@ const Login = (props) => {
             <div className="form-group">
               <TextField
                 className="textField"
-                Props={{className: 'textField'}}
+                Props={{ className: 'textField' }}
                 onChange={ handleEmail }
                 value={ email }
                 type="email"
@@ -123,7 +121,7 @@ const Login = (props) => {
             <div className="form-group">
             <TextField
               className="textField"
-              Props={{className: 'textField'}}
+              Props={{ className: 'textField' }}
               onChange={ handlePassword }
               value={ password }
               type="password"
@@ -144,12 +142,6 @@ const Login = (props) => {
               login
             </Button>
           </form>
-          { loginFail ? (
-            <Typography variant="body1" component="p">login failed</Typography>
-          ) : (
-            <></>
-          )
-          }
         </Paper>
       </Grid>
     </Grid>

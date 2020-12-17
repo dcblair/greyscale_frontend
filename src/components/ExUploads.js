@@ -1,7 +1,6 @@
-import { Button, 
+import { 
   Card,
   CardMedia,
-  Grid,
   IconButton,
   makeStyles, 
   Typography,
@@ -24,43 +23,19 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   Card: {
-    [theme.breakpoints.down('sm')]: {
-      width: 320,
-      height: 320
-    },
-    [theme.breakpoints.up('md')]: {
-      width: 300,
-      height: 300,
-      margin: 20
-    },
-    [theme.breakpoints.up('lg')]: {
-      width: 300,
-      height: 300,
-      margin: 20
-    }
-  },
-  cover: {
-    width: 151,
-  },
-  root: {
-    flexDirection: 'column',
-    justifyItems: 'center',
-    flexGrow: 1,
-    '& > *': {
-      margin: theme.spacing(.7),
-    },
-  },
-  Card: {
     background: '#B8B8B8',
     [theme.breakpoints.down('sm')]: {
       width: 320,
+      height: 380
     },
     [theme.breakpoints.up('md')]: {
       width: 300,
+      height: 380,
       margin: 20
     },
     [theme.breakpoints.up('lg')]: {
       width: 300,
+      height: 380,
       margin: 20
     }
   },
@@ -136,56 +111,56 @@ const ExUploads = () => {
       <Typography variant="h4" component="h1" className={ classes.header }>
         greyscale
       </Typography>
-    { exUploads && exUploads.map((upload) => (
-      <Card
-          className={ classes.Card }
-          elevation={1}
-          style={{
-          display:"inline-block",
-          textAlign: "center",
-          wordWrap: "break-word",
-          padding: 10
-          }}
-        >
-          <Typography
-            className={ classes.name}
-            component="h2"
-            variant="h5"
-            key={ upload.id }
+      { exUploads && exUploads.map((upload) => (
+        <Card
+            className={ classes.Card }
+            elevation={1}
+            style={{
+            display:"inline-block",
+            textAlign: "center",
+            wordWrap: "break-word",
+            padding: 10
+            }}
           >
-            { upload.name }
-          </Typography>
-          <Typography
-            className={ classes.artist }
-            component="h3"
-            variant="body1"
-            key={ upload.artist }
-          >
-            { upload.artist }
-          </Typography>
-          <Typography
-            className={ classes.album }  
-            component="h3"
-            variant="h6"
-            key={ upload.album }
-          >
-            { upload.album }
-          </Typography>
-          <CardMedia
-            className={ classes.cover }
-            component="img"
-            alt={ upload.album }
-            image={ upload.artwork }
-            title={ upload.name }
-          />
-          <div className={ classes.icons }>
-            <IconButton onClick={ () => selectTrack(upload.name) }>
-              <PlayCircleFilledIcon />
-            </IconButton>
-          </div>
-        </Card>
-    ))
-    }
+            <Typography
+              className={ classes.name}
+              component="h2"
+              variant="h5"
+              key={ upload.id }
+            >
+              { upload.name }
+            </Typography>
+            <Typography
+              className={ classes.artist }
+              component="h3"
+              variant="body1"
+              key={ upload.artist }
+            >
+              { upload.artist }
+            </Typography>
+            <Typography
+              className={ classes.album }  
+              component="h3"
+              variant="h6"
+              key={ upload.album }
+            >
+              { upload.album }
+            </Typography>
+            <CardMedia
+              className={ classes.cover }
+              component="img"
+              alt={ upload.album }
+              image={ upload.artwork }
+              title={ upload.name }
+            />
+            <div className={ classes.icons }>
+              <IconButton onClick={ () => selectTrack(upload.name) }>
+                <PlayCircleFilledIcon />
+              </IconButton>
+            </div>
+          </Card>
+      ))
+      }
     </div>
   )
 }

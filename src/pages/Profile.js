@@ -53,11 +53,11 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: 1.5
   },
   input: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(.7),
     marginBottom: theme.spacing(1)
   },
   text: {
-    marginBottom: theme.spacing(2)
+    marginTop: theme.spacing(3.5),
   },
   formButton: {
     marginTop: theme.spacing(3),
@@ -165,17 +165,19 @@ const Profile = (props) => {
                 />
               </div>
 
+              <Typography variant="body1" component="h6" className={ classes.text }>
+                profile picture
+              </Typography>
+
               <Input
                 className={ classes.input }
                 type="file"
                 name="file"
                 placeholder="upload profile picture"
+                style={{ color: '#000', marginBottom: 10 }}
                 onChange={ (e) => setImage(e.target.files) }
               />
 
-              <Typography variant="body1" component="h6" className={ classes.text }>
-                profile picture
-              </Typography>
 
               <Button
                 type="submit"
