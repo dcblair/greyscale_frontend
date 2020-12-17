@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#000',
     margin: theme.spacing(3),
     [theme.breakpoints.down('sm')]: {
-      width: 400,
+      width: 320,
     },
     [theme.breakpoints.up('md')]: {
       width: 600,

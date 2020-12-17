@@ -5,23 +5,10 @@ import {
               DialogContent,
               Typography, 
               IconButton,
-              makeStyles,
             } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
-const useStyles = makeStyles((theme) => ({
-// root: {
-//   display: 'flex',
-//   flexDirection: 'column',
-//   justifyContent: 'center',
-//   margin: 'auto',
-//   alignItems: 'center',
-// },
-}));
-
 const UploadDialog = (props) => {
-  const classes = useStyles();
-
   const { children, openUploadDialog, setOpenUploadDialog } = props;
 
   return (
