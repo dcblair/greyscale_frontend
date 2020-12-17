@@ -52,7 +52,7 @@ featuring a minimal, easy-to-use interface, greyscale offers artists and bands a
 
 ## thanks
 
-i am extremely grateful to Brock, James, Michael, Jacob, Uyen, David, and Mario. i appreciate all of your time, patience, and support.
+i am extremely grateful for Brock, James, Michael, Jacob, Uyen, David, Mario, and all of my SEIR 921 classmates. i appreciate all of your time, patience, and support.
 
 to the reader, thank you for taking the time to check out this repo. :)
 
