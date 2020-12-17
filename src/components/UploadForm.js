@@ -26,17 +26,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paper: {
+    display: 'flex',
     color: '#000',
     margin: theme.spacing(1),
     flexDirection: 'column',
-    alignItems: 'center',
+    textAlign: 'center',
     backgroundColor: '#D6D6D6'
   },
-  header: {
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(7),
-    textAlign: 'left'
+  input: {
+    margin: 15
   },
   formButton: {
     marginTop: theme.spacing(2),
@@ -131,115 +129,134 @@ const UploadForm = (props) => {
         container
         className={ classes.root }
         display="flex"
+        spacing={0}
       >
-        <Paper className={ classes.paper }>
-          <form className={ classes.form } action="" id="uploadForm">
-            <div aria-label="Entry title textfield">
-              <TextField 
-                id="outlined-basic" 
-                label="track name"
-                type="text"
-                value={ name }
-                onInput={ (e) => setName(e.target.value) }
-                variant="outlined" 
-              />
-            </div>
+        <Grid item>
+          <Paper className={ classes.paper }>
+            <form className={ classes.form } action="" id="uploadForm">
+              <div aria-label="Entry title textfield">
+                <TextField
+                  style={{ marginTop: 30 }}
+                  className="textField"
+                  Props={{className: 'textField'}}
+                  id="outlined-basic" 
+                  label="track name"
+                  type="text"
+                  value={ name }
+                  onInput={ (e) => setName(e.target.value) }
+                  variant="outlined" 
+                />
+              </div>
 
-            <div aria-label="artist">
-              <TextField
-                id="outlined-multiline-static"
-                label="artist name"
-                value={ artist }
-                type="text"
-                onInput={ (e) => setArtist(e.target.value) }
-                variant="outlined"
-              />
-            </div>
-            
-            <div aria-label="album">
-              <TextField
-                id="outlined-multiline-static"
-                label="album name"
-                value={ album }
-                type="text"
-                onInput={ (e) => setAlbum(e.target.value) }
-                variant="outlined"
-              />
-            </div>
+              <div aria-label="artist">
+                <TextField
+                  className="textField"
+                  Props={{className: 'textField'}}
+                  id="outlined-multiline-static"
+                  label="artist name"
+                  value={ artist }
+                  type="text"
+                  onInput={ (e) => setArtist(e.target.value) }
+                  variant="outlined"
+                />
+              </div>
+              
+              <div aria-label="album">
+                <TextField
+                  className="textField"
+                  Props={{className: 'textField'}}
+                  id="outlined-multiline-static"
+                  label="album name"
+                  value={ album }
+                  type="text"
+                  onInput={ (e) => setAlbum(e.target.value) }
+                  variant="outlined"
+                />
+              </div>
 
-            <div aria-label="genre">
-              <TextField
-                id="outlined-multiline-static"
-                label="genre"
-                value={ genre }
-                type="text"
-                onInput={ (e) => setGenre(e.target.value) }
-                variant="outlined"
-              />
-            </div>
+              <div aria-label="genre">
+                <TextField
+                  className="textField"
+                  Props={{className: 'textField'}}
+                  id="outlined-multiline-static"
+                  label="genre"
+                  value={ genre }
+                  type="text"
+                  onInput={ (e) => setGenre(e.target.value) }
+                  variant="outlined"
+                />
+              </div>
 
-            <div aria-label="labelId">
-              <TextField
-                id="outlined-multiline-static"
-                label="label id"
-                value={labelId}
-                type="text"
-                onInput={ (e) => setLabelId(e.target.value) }
-                variant="outlined"
-              />
-            </div>
+              <div aria-label="labelId">
+                <TextField
+                  className="textField"
+                  Props={{className: 'textField'}}
+                  id="outlined-multiline-static"
+                  label="label id"
+                  value={labelId}
+                  type="text"
+                  onInput={ (e) => setLabelId(e.target.value) }
+                  variant="outlined"
+                />
+              </div>
 
-            <Typography variant="body1">music file (mp3 only)</Typography>
-            <Input
-              type="file"
-              name="file"
-              placeholder="upload music"
-              onChange={ (e) => setMusic(e.target.files) }
-            />
+              <div className={ classes.input }>
+                <Typography variant="body1" style={{ marginTop: 10 }}>
+                  music file (mp3 only)
+                </Typography>
+                <Input
+                  style={{
+                    color: '#000'
+                  }}
+                  type="file"
+                  name="file"
+                  placeholder="upload music"
+                  onChange={ (e) => setMusic(e.target.files) }
+                />
 
-            <Typography variant="body1">album artwork</Typography>
-            <Input
-              type="file"
-              name="file"
-              placeholder="upload album artwork"
-              onChange={ (e) => setArtwork(e.target.files) }
-            />
+                <Typography variant="body1" style={{ marginTop: 30, marginBottom: 10 }}>
+                  album artwork
+                </Typography>
+                <Input
+                  style={{
+                    color: '#000'
+                  }}
+                  type="file"
+                  name="file"
+                  placeholder="upload album artwork"
+                  onChange={ (e) => setArtwork(e.target.files) }
+                />
+              </div>
 
-            <Grid>
-              <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-              >
-                <Grid item>private</Grid>
-                <Grid item>
-                  <Switch
-                    checked={ isPublic }
-                    onChange={ () => setIsPublic(!isPublic) }
-                    color="primary"
-                    name="privacy"
-                    label="publicOrPrivate"
-                  />
+              <Grid>
+                <Grid
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                >
+                  <Grid item>private</Grid>
+                  <Grid item>
+                    <Switch
+                      checked={ isPublic }
+                      onChange={ () => setIsPublic(!isPublic) }
+                      color="#D6D6D6"
+                      name="privacy"
+                      label="publicOrPrivate"
+                    />
+                  </Grid>
+                  <Grid item>public</Grid>
                 </Grid>
-                <Grid item>public</Grid>
               </Grid>
-            </Grid>
-            <Button
-              className={ classes.formButton }
-              onClick={ handleSubmit }
-            >
-              submit
-            </Button>
-          </form>
-
-          { loading ? (
-            <Typography component="p" variant="body1">loading...</Typography>
-          ): (
-            <Typography>success!</Typography>
-          )
-          }
-        </Paper>
+              <Button
+                className={ classes.formButton }
+                onClick={ handleSubmit }
+              >
+                submit
+              </Button>
+            </form>
+          </Paper>
+        </Grid>
       </Grid>
   )
 }
