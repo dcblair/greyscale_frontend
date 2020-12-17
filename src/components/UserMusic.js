@@ -27,13 +27,16 @@ const useStyles = makeStyles((theme) => ({
     background: '#B8B8B8',
     [theme.breakpoints.down('sm')]: {
       width: 320,
+      height: 320
     },
     [theme.breakpoints.up('md')]: {
       width: 300,
+      height: 300,
       margin: 20
     },
     [theme.breakpoints.up('lg')]: {
       width: 300,
+      height: 300,
       margin: 20
     }
   },
@@ -126,7 +129,7 @@ const UserMusic = (props) => {
           display:"inline-block",
           textAlign: "center",
           wordWrap: "break-word",
-          padding:10
+          padding: 10
           }}
         >
           <Typography
@@ -135,20 +138,22 @@ const UserMusic = (props) => {
             variant="h5"
             key={ upload.id }
           >
-          { upload.name }
+            { upload.name }
           </Typography>
           <Typography 
             className={ classes.artist }
             component="h3"
             variant="body1"
-            key={ upload.artist }>
+            key={ upload.artist }
+          >
             { upload.artist }
           </Typography>
           <Typography
             className={ classes.album }
             component="h3"
             variant="h6"
-            key={ upload.album }>
+            key={ upload.album }
+          >
             { upload.album }
           </Typography>
           <CardMedia
