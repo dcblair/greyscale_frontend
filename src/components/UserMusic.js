@@ -11,32 +11,67 @@ import { UserContext } from './userContext';
 import { MusicContext } from './musicContext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import '../styles.css';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexDirection: 'column',
-    wordWrap: 'break-word',
     justifyItems: 'center',
     flexGrow: 1,
     '& > *': {
       margin: theme.spacing(.7),
     },
   },
-  card: {
-    width: 300,
+  Card: {
+    background: '#B8B8B8',
     [theme.breakpoints.down('sm')]: {
-      width: 300,
+      width: 320,
     },
     [theme.breakpoints.up('md')]: {
-      width: 700,
+      width: 300,
+      margin: 20
     },
     [theme.breakpoints.up('lg')]: {
-      width: 1200
+      width: 300,
+      margin: 20
     }
   },
   cover: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
     width: 151,
   },
+  header: {
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(3),
+    color: '#E6E6E6',
+    letterSpacing: 1.5,
+    textDecoration: 'underline'
+  },
+  icons: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2)
+  },
+  name: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(1.5),
+    wordWrap: 'break-word',
+    color: '#E6E6E6',
+
+  },
+  artist: {
+    marginBottom: theme.spacing(1),
+    fontSize: 18,
+    letterSpacing: 1.2,
+    fontWeight: 300,
+    color: '#5C5C5C'
+  },
+  album: {
+    marginBottom: theme.spacing(1.5),
+    fontWeight: 400,
+    color: '#3D3D3D'
+  }
 }))
 
 const UserMusic = (props) => {
@@ -78,11 +113,9 @@ const UserMusic = (props) => {
   }
 
   return (
-    <div>
-      <Typography variant="h6"
-      style={{padding: 20}}
-      >
-        { user.artistName }'s music
+    <div className={ classes.root }>
+      <Typography variant="h5" component="h1" className={ classes.header }>
+        music
       </Typography>
       { (userUploads !== '') ? (
         userUploads.map((upload) => (
@@ -92,32 +125,47 @@ const UserMusic = (props) => {
           style={{
           display:"inline-block",
           textAlign: "center",
-          padding: 30
+          wordWrap: "break-word",
+          padding:10
           }}
         >
-          <Typography component="h3" variant="h6" key={ upload.id }>
+          <Typography
+            className={ classes.name }
+            component="h2"
+            variant="h5"
+            key={ upload.id }
+          >
           { upload.name }
           </Typography>
-          <Typography component="h5" variant="body1" key={ upload.artist }>
+          <Typography 
+            className={ classes.artist }
+            component="h3"
+            variant="body1"
+            key={ upload.artist }>
             { upload.artist }
           </Typography>
-          <Typography compoment="p" variant="body1" key={ upload.album }>
+          <Typography
+            className={ classes.album }
+            component="h3"
+            variant="h6"
+            key={ upload.album }>
             { upload.album }
           </Typography>
           <CardMedia
             className={ classes.cover }
             component="img"
+            alt={ upload.album }
             image={ upload.artwork }
             title={ upload.name }
           />
-          <>
+          <div className={ classes.icons }>
             <IconButton onClick={ () => selectTrack(upload.name) }>
               <PlayCircleFilledIcon />
             </IconButton>
             <IconButton aria-label="delete" onClick={ () => handleUploadDelete(upload.id) } >
               <DeleteIcon />
             </IconButton>
-          </>  
+          </div>  
         </Card>
       ))
       ) : (

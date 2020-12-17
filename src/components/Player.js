@@ -17,8 +17,9 @@ import { VolumeUp } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 1,
+    marginTop: -10,
     display: 'flex',
+    justifyContent: 'center'
   },
   details: {
     display: 'flex',

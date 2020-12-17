@@ -41,12 +41,30 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '1rem'
   },
   login: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'end',
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 'auto',
+    },
+    [theme.breakpoints.up('md')]: {
+      marginLeft: 'auto',
+      marginRight: '3rem',
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginLeft: 'auto',
+      marginRight: '5rem',
+    },
   },
   bar: {
     textDecoration: 'none'
+  },
+  upload: {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: 'auto',
+      marginRight: '1rem',
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginLeft: 'auto',
+      marginRight: '1rem',
+    },
   }
 }));
 
@@ -94,8 +112,23 @@ const NavBar = (props) => {
               </Button>
             </Tooltip>
           </Link>
+          <div className={ classes.login }>
             { currentUser ? (
               <>
+              <Button
+                  className={ classes.upload }
+                  onClick={ () => setOpenUploadDialog(true) }
+                >
+                  upload
+                </Button>
+                <UploadDialog
+                  openUploadDialog={ openUploadDialog }
+                  setOpenUploadDialog={ setOpenUploadDialog }
+                >
+                  <UploadForm
+                    setOpenUploadDialog={ setOpenUploadDialog }
+                  />
+                </UploadDialog>
                 <Tooltip title="menu">
                   <IconButton
                     className={ classes.profileButton }
@@ -108,6 +141,7 @@ const NavBar = (props) => {
                     { user && user.image ? (
                       <>
                         <img
+                        alt="user/profile menu"
                         src={ user.image }
                         width={40}
                         />
@@ -143,43 +177,28 @@ const NavBar = (props) => {
                     logout
                   </MenuItem>
                 </Menu>
-                <Button
-                  onClick={ () => setOpenUploadDialog(true) }
-                >
-                  upload
-                </Button>
-                <UploadDialog
-                  openUploadDialog={ openUploadDialog }
-                  setOpenUploadDialog={ setOpenUploadDialog }
-                >
-                  <UploadForm
-                    setOpenUploadDialog={ setOpenUploadDialog }
-                  />
-                </UploadDialog>
-              </>
+                </>
             ): (
-              <>
-              {/* <div className={ classes.login }> */}
+              <div
+                display="flex"
+                flexDirection="row"
+                justifyContent="center"
+                verticalAlign="middle"
+              >
                 <Link to={ "/login" }>
                   <Button>
                     login
                   </Button>
                 </Link>
-                <Typography 
-                  className={ classes.bar } 
-                  variant="h4"
-                  component="body1"
-                > 
-                  | 
-                </Typography>
+                <Typography className={ classes.bar } variant="h5" component="body1"> | </Typography>
                 <Link to={ "/register" }>
                   <Button>
                     register
                   </Button>
                 </Link>
-              {/* </div> */}
-              </>
+              </div>
             )}
+          </div>
         </Toolbar>
       </AppBar>
     </div>

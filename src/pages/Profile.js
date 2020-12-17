@@ -32,9 +32,8 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     color: '#000',
     margin: theme.spacing(3),
-    width: 300,
     [theme.breakpoints.down('sm')]: {
-      width: 320,
+      width: 400,
     },
     [theme.breakpoints.up('md')]: {
       width: 600,
@@ -50,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(3),
-    textDecoration: 'none',
+    textDecoration: 'underline',
     letterSpacing: 1.5
   },
   input: {
@@ -83,7 +82,6 @@ const Profile = (props) => {
   const { user, setUser, logout } = useContext(UserContext);
   const [artistName, setArtistName] = useState('');
   const [image, setImage] = useState('');
-  const [loading, setLoading] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
 
@@ -92,7 +90,6 @@ const Profile = (props) => {
     const data = new FormData()
     data.append('file', files[0])
     data.append('upload_preset', 'greyscale_profile')
-    setLoading(true)
     const res = await fetch(
       `${process.env.REACT_APP_CLOUDINARY_URL}/image/upload`,
       {

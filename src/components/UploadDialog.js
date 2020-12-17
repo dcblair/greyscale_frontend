@@ -9,7 +9,6 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 
 const UploadDialog = (props) => {
-
   const { children, openUploadDialog, setOpenUploadDialog } = props;
 
   return (
