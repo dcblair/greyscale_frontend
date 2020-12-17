@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { CssBaseline, Paper, ThemeProvider } from '@material-ui/core';
+import { CssBaseline, 
+          Grid,
+          makeStyles,
+          ThemeProvider
+        } from '@material-ui/core';
 import NavBar from './components/NavBar';
 import Player from './components/Player';
 import Routes from './config/Routes';
@@ -8,27 +12,44 @@ import { UserContextProvider } from './components/userContext';
 import { MusicContextProvider } from './components/musicContext';
 import './App.css';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    textAlign: 'center',
+  },
+  grid: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+}));
+
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const classes = useStyles();
 
   return (
-    <div className="App">
+    <div className={ classes.root }>
       <ThemeProvider theme={theme}>
         <CssBaseline>
-          <Paper>
             <UserContextProvider>
               <MusicContextProvider>
-            <NavBar
-              darkMode={ darkMode }
-              setDarkMode={ setDarkMode }
-            >
-            </NavBar>
-            <Player />
-            <Routes 
-            />
+                <Grid
+                className={ classes.grid }
+                container
+                justify="center"
+                >
+                  <Grid item>
+                    <NavBar />
+                  </Grid>
+                  <Grid item>
+                    <Player />
+                  </Grid>
+                  <Grid item>
+                    <Routes />
+                  </Grid>
+                </Grid>
               </MusicContextProvider>
             </UserContextProvider>
-          </Paper>
         </CssBaseline>
       </ThemeProvider>
     </div>

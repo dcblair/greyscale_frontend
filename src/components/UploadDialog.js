@@ -6,12 +6,11 @@ import {
               Typography, 
               IconButton,
             } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close'
-
+import CloseIcon from '@material-ui/icons/Close';
 
 const UploadDialog = (props) => {
 
-  const { title, children, openUploadDialog, setOpenUploadDialog } = props;
+  const { children, openUploadDialog, setOpenUploadDialog } = props;
 
   return (
     <Dialog open={ openUploadDialog } >

@@ -1,8 +1,9 @@
-import { Button, 
-        Grid,
+import { AppBar,
+        Button,
         IconButton,
         Menu,
         MenuItem,
+        Toolbar,
         Tooltip,
         Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,25 +16,41 @@ import UploadDialog from './UploadDialog';
 import UploadForm from './UploadForm';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
+  // root: {
+  //   flexGrow: 1
+  // },
+  appBar: {
+    background: '#B8B8B8',
+    position: 'sticky'
+  },
+  iconText: {
+    marginLeft: 10,
+    marginRight: 20,
+    color: '#fff',
+    fontWeight: 'bold',
+    letterSpacing: 1.2
+  },
+  appBarWrapper: {
+    width: '85%',
+    margin: '0 auto'
   },
   homeButton: {
-    marginRight: '2rem',
+    marginRight: '1rem',
   },
   profileButton: {
     marginLeft: '1rem'
   },
-  newEntryButton: {
-    marginRight: '1rem'
-  },
-
+  login: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'end',
+  }
 }));
 
 const NavBar = (props) => {
   const classes = useStyles();
 
-  const { user, setUser, currentUser, logout } = useContext(UserContext);
+  const { user, currentUser, logout } = useContext(UserContext);
   
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -46,111 +63,115 @@ const NavBar = (props) => {
     setAnchorEl(null)
   };
 
+  useEffect(() => {
+    setAnchorEl(false)
+  }, [])
+
   return (
-      <Grid
-        container
-        display="flex"
-        flexDirection="row"
-        justifyContent="center"
-        verticalAlign="center"
-      >
-      <Link to={'/'}>
-        <Tooltip title='home'>
-          <Button className={ classes.button }>
-            <img
-            src={ logo }
-            alt="greyscale logo/home button"
-            style={{
-              width: 40
-            }}
-            />
-          </Button>
-        </Tooltip>
-      </Link>
-        { currentUser ? (
-          <>
-            <Tooltip title="menu">
-              <IconButton
-                className={ classes.profileButton }
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={ handleMenu }
-                color="inherit"
-              >
-                { user && user.image ? (
-                  <>
-                    <img
-                    src={user.image}
-                    width={40}
-                    />
-                  </>
-            
-                )
-                :
-                  <>
-                    <AccountCircle />
-                  </>
-                }
-              </IconButton>
+    <div className={ classes.root }>
+      <AppBar className={ classes.appBar }>
+        <Toolbar className={ classes.appBarWrapper }>
+          <Link to={'/'}>
+            <Tooltip title='home'>
+              <Button className={ classes.homeButton }>
+                <img
+                src={ logo }
+                alt="greyscale logo/home button"
+                style={{
+                  width: 40
+                }}
+                />
+                <Typography
+                  className={ classes.iconText }
+                  variant="h6"
+                  component="body1"
+                >
+                  gs
+                </Typography>
+              </Button>
             </Tooltip>
-            <Menu
-              id="menu-appbar"
-              anchorEl={ anchorEl }
-              anchorOrigin={{
-                horizontal: 'right'
-              }}
-              keepMounted
-              transformOrigin={{
-                horizontal: 'right',
-              }}
-              open={ open }
-              onClose={ handleClose }
-            >
-              <MenuItem component={ Link } to={ '/music/mine' } onClick={ handleClose }>
-                music
-              </MenuItem>
-              <MenuItem component={ Link } to={ '/profile' } onClick={ handleClose }>
-                profile
-              </MenuItem>
-              <MenuItem component={ Link } to={ '/logout' } onChange={ handleClose } onClick={ logout }>
-                logout
-              </MenuItem>
-            </Menu>
-            <Button
-              onClick={ () => setOpenUploadDialog(true) }
-            >
-              upload
-            </Button>
-            <UploadDialog
-              openUploadDialog={ openUploadDialog }
-              setOpenUploadDialog={ setOpenUploadDialog }
-            >
-              <UploadForm
-                setOpenUploadDialog={ setOpenUploadDialog }
-              />
-            </UploadDialog>
-          </>
-        ): (
-          <>
-            <Link to={ "/login" }>
-              <Button
-                style={{textTransform: 'none'}}
-              >
-                login
-              </Button>
-            </Link>
-            <Typography variant="h4"> | </Typography>
-            <Link to={ "/register" }>
-              <Button
-                style={{textTransform: 'none'}}
-              >
-                register
-              </Button>
-            </Link>
-          </>
-        )}
-      </Grid>
+          </Link>
+            { currentUser ? (
+              <>
+                <Tooltip title="menu">
+                  <IconButton
+                    className={ classes.profileButton }
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={ handleMenu }
+                    color="inherit"
+                  >
+                    { user && user.image ? (
+                      <>
+                        <img
+                        src={ user.image }
+                        width={40}
+                        />
+                      </>
+                    )
+                    :
+                      <>
+                        <AccountCircle />
+                      </>
+                    }
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={ anchorEl }
+                  anchorOrigin={{
+                    horizontal: 'right'
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    horizontal: 'right',
+                  }}
+                  open={ open }
+                  onClose={ handleClose }
+                >
+                  <MenuItem component={ Link } to={ '/music/mine' } onClick={ handleClose }>
+                    music
+                  </MenuItem>
+                  <MenuItem component={ Link } to={ '/profile' } onClick={ handleClose }>
+                    profile
+                  </MenuItem>
+                  <MenuItem component={ Link } to={ '/logout' } onChange={ handleClose } onClick={ logout }>
+                    logout
+                  </MenuItem>
+                </Menu>
+                <Button
+                  onClick={ () => setOpenUploadDialog(true) }
+                >
+                  upload
+                </Button>
+                <UploadDialog
+                  openUploadDialog={ openUploadDialog }
+                  setOpenUploadDialog={ setOpenUploadDialog }
+                >
+                  <UploadForm
+                    setOpenUploadDialog={ setOpenUploadDialog }
+                  />
+                </UploadDialog>
+              </>
+            ): (
+              <div className={ classes.login }>
+                <Link to={ "/login" }>
+                  <Button>
+                    login
+                  </Button>
+                </Link>
+                <Typography variant="h4" component="body1"> | </Typography>
+                <Link to={ "/register" }>
+                  <Button>
+                    register
+                  </Button>
+                </Link>
+              </div>
+            )}
+        </Toolbar>
+      </AppBar>
+    </div>
   )
 }
 

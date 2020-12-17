@@ -130,6 +130,7 @@ const Profile = (props) => {
                 submit
               </Button>
             </form>
+
             { loading ? (
               <Typography>loading...</Typography>
             ): (
@@ -138,6 +139,7 @@ const Profile = (props) => {
               </>
             )
             }
+
             <Button aria-label="delete" onClick={ () => setConfirmOpen(true) }>
               delete account
             </Button>
@@ -149,6 +151,7 @@ const Profile = (props) => {
             >
               are you sure you want to delete your account?
             </ConfirmDialog>
+            
           </Grid>
         </Paper>
     </div>
