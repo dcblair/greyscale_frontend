@@ -97,7 +97,7 @@ const SearchUploads = (props) => {
   }
 
   return (
-    <div>
+    <div className={ classes.root }>
       { props.searchUploads && props.searchUploads.map((upload) => (
         <Card
           className={ classes.Card }

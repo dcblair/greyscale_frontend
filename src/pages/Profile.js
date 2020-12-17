@@ -16,16 +16,18 @@ import '../styles.css';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 'auto'
   },
   form: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '30vw',
+    margin: 'auto',
     '& .MuiTextField-root': {
-      margin: theme.spacing(2),
-      maxWidth: '20vh',
       display: 'flex',
-      flexDirection: 'column',
+      maxWidth: '30vw',
       margin: 'auto'
     },
   },
@@ -36,14 +38,12 @@ const useStyles = makeStyles((theme) => ({
       width: 320,
     },
     [theme.breakpoints.up('md')]: {
-      width: 600,
+      width: 475,
       typography: {
         letterSpacing: 2,
         fontSize: 20
       }
     },
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
     backgroundColor: '#B8B8B8'
   },
   header: {
@@ -60,10 +60,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3.5),
   },
   formButton: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(6),
-    paddingLeft: 10,
-    paddingRight: 10,
     paddingTop: 6,
     paddingBottom: 6,
     borderRadius: 6,
@@ -174,10 +172,9 @@ const Profile = (props) => {
                 type="file"
                 name="file"
                 placeholder="upload profile picture"
-                style={{ color: '#000', marginBottom: 10 }}
+                style={{ color: '#000', marginBottom: 20 }}
                 onChange={ (e) => setImage(e.target.files) }
               />
-
 
               <Button
                 type="submit"

@@ -17,25 +17,71 @@ import { VolumeUp } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: -10,
     display: 'flex',
-    justifyContent: 'center'
+    flexDirection: 'column',
+    wordWrap: 'break-word',
+    flexGrow: 1,
+    '& > *': {
+      margin: theme.spacing(.7),
+    },
+  },
+  Card: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    alignItems: 'center',
+    background: '#6D6D6D',
+    [theme.breakpoints.down('sm')]: {
+      width: 320,
+      height: 340
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 350,
+      height: 340,
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: 400,
+      height: 340,
+    }
   },
   details: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
   },
   content: {
     flex: '1 0 auto',
   },
   cover: {
     width: 151,
+    // marginLeft: 10,
+    // marginRight: 10
+  },
+  infoControls: {
+    display: 'flex',
+    flexDirection: 'column'
   },
   controls: {
     display: 'flex',
     alignItems: 'center',
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    justifyContent: 'center',
+    paddingLeft: theme.spacing(.3),
+    paddingBottom: theme.spacing(2),
+  },
+  volumeSlider: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    width: 300
+    
+  },
+  progressSlider: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1.5),
+    width: 300
+  },
+  sliders: {
+    marginLeft: 20
   }
 }));
 
@@ -140,60 +186,70 @@ const Player = (props) => {
   }
 
   return (
-    <Card className={ classes.root }>
+  <div className={ classes.root }>
+    <Card className={ classes.Card }>
       <div className={ classes.details }>
-        <CardContent className={ classes.content }>
-          <Typography component="h6" variant="h6">
-            { uploads && ready && uploads[number].name }
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            { uploads && uploads[number].artist }
-          </Typography>
-        </CardContent>
-        <div className={ classes.controls }>
-          <IconButton aria-label="previous">
-            { theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon onClick={ handlePrev } /> }
-          </IconButton>
-          <audio
-            id="song"
-            ref={ Ref }
-            src={ uploads && uploads[number].music }
-            onLoadedData={ () => setReady(true) }
-            currentTime="seconds"
-            autoPlay={ autoPlay }
-          />
-          <IconButton 
-            aria-label="play/pause"
-            onClick={ isPaused ? handlePlay : handlePause }
-          >
-            { !isPaused ? (
-              <PauseIcon
-                fontSize="medium"
-                className={ classes.pauseIcon } 
-              />
-            ) : (
-              <PlayArrowIcon
-                fontSize="medium"
-                className={ classes.playIcon }
-              />
-            )
-            }
-          </IconButton>
-          <IconButton aria-label="next">
-            { theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon onClick={ handleNext }/>}
-          </IconButton>
+        <div className={ classes.infoControls }>
+          <CardContent className={ classes.content }>
+            <Typography component="h6" variant="h6">
+              { uploads && ready && uploads[number].name }
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary">
+              { uploads && uploads[number].artist }
+            </Typography>
+          </CardContent>
+          <div className={ classes.controls }>
+            <IconButton aria-label="previous">
+              { theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon onClick={ handlePrev } /> }
+            </IconButton>
+            <audio
+              id="song"
+              ref={ Ref }
+              src={ uploads && uploads[number].music }
+              onLoadedData={ () => setReady(true) }
+              currentTime="seconds"
+              autoPlay={ autoPlay }
+            />
+            <IconButton 
+              aria-label="play/pause"
+              onClick={ isPaused ? handlePlay : handlePause }
+            >
+              { !isPaused ? (
+                <PauseIcon
+                  fontSize="medium"
+                  className={ classes.pauseIcon } 
+                />
+              ) : (
+                <PlayArrowIcon
+                  fontSize="medium"
+                  className={ classes.playIcon }
+                />
+              )
+              }
+            </IconButton>
+            <IconButton aria-label="next">
+              { theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon onClick={ handleNext }/>}
+            </IconButton>
+          </div>
         </div>
-      </div>
         <CardMedia
           className={ classes.cover }
           image={ uploads && uploads[number].artwork }
           title={ uploads && uploads[number].name }
         />
-      <div>
+      </div>
+      <div className={ classes.sliders }>
         <Grid
           container
+          display="flex"
+          justifyContent="space-between"
+          textAlign="center"
         >
-          <Grid container spacing={2} alignItems="center">
+          <Grid 
+            className={ classes.volumeSlider }
+            container spacing={2}
+            alignItems="center"
+          >
             <Grid item>
               <VolumeUp />
             </Grid>
@@ -224,14 +280,17 @@ const Player = (props) => {
           <Grid
             container
           >
-          <Grid container spacing={2}>
+          <Grid 
+            container
+            className={ classes.progressSlider }
+            spacing={2}>
             <Grid item>
               <Typography variant="body1">
                 { ready && uploads ? getTime(progress): "" }
               </Typography>
             </Grid>
             <Grid item xs>
-              <Slider 
+              <Slider
                 value={ progress }
                 onChange={ handleScrubChange }
                 max={ ready && uploads ? Ref.current.duration: 0 }
@@ -247,6 +306,7 @@ const Player = (props) => {
         </Grid>
       </div>
     </Card>
+  </div>
   );
 }
 
