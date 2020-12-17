@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3),
     display: 'flex',
     [theme.breakpoints.down('sm')]: {
-      width: 350,
+      width: 320,
     },
     [theme.breakpoints.up('md')]: {
       width: 400,
