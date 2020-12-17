@@ -95,7 +95,6 @@ const Login = (props) => {
       container
       justify='center'
       spacing={0}
-      style={{ minHeight: "60vh" }}
     >
       <Grid item>
         <Paper className={ classes.paper }>

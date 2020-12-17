@@ -31,15 +31,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     marginLeft: 'auto',
     marginRight: 'auto',
+    marginBottom: 10,
     alignItems: 'center',
     background: '#6D6D6D',
     [theme.breakpoints.down('sm')]: {
-      width: 320,
-      height: 340
+      width: 325,
+      height: 350
     },
     [theme.breakpoints.up('md')]: {
       width: 350,
-      height: 340,
+      height: 350,
     },
     [theme.breakpoints.up('lg')]: {
       width: 400,
@@ -55,8 +56,9 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: 151,
-    // marginLeft: 10,
-    // marginRight: 10
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 13
   },
   infoControls: {
     display: 'flex',
@@ -81,7 +83,8 @@ const useStyles = makeStyles((theme) => ({
     width: 300
   },
   sliders: {
-    marginLeft: 20
+    marginLeft: 20,
+    marginTop: theme.spacing(1)
   }
 }));
 
@@ -96,7 +99,7 @@ const Player = (props) => {
           ready, setReady
         } = useContext(MusicContext);
 
-  const [value, setValue] = useState(40);
+  const [value, setValue] = useState(80);
   const [interval] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [scrubValue, setScrubValue] = useState(0);
@@ -104,9 +107,8 @@ const Player = (props) => {
   const [duration, setDuration] = useState(null);
   const [autoPlay, setAutoPlay] = useState(false);
 
-  // come back to this!
+  // come back to this! --> scrub functionality!
   const handleScrubChange = async (e, newValue) => {
-    // scrubValue = await Ref.current.currentTime
     setProgress(newValue)
     setCurrentTime(progress)
   };
@@ -135,7 +137,7 @@ const Player = (props) => {
     setAutoPlay(true)
     setInterval(() => {
       setCurrentTime(Ref.current.currentTime);
-      setProgress(Math.round((Ref.current.currentTime / Ref.current.duration) * 100))
+      setProgress(Math.floor((Ref.current.currentTime / Ref.current.duration) * 100))
       setScrubValue(progress)
     }, 100);
   }
