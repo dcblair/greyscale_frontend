@@ -6,10 +6,9 @@ import { Button,
         Switch,
         TextField,
         Typography } from '@material-ui/core';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import UploadModel from '../models/upload';
 import { useHistory, useLocation } from 'react-router-dom';
-import { UserContext } from './userContext';
 import '../styles.css';
 
 
@@ -53,8 +52,6 @@ const UploadForm = (props) => {
 
   const history = useHistory();
   
-  const { user, currentUser} = useContext(UserContext);
-  
   const [name, setName] = useState('');
   const [album, setAlbum] = useState('');
   const [artwork, setArtwork] = useState('');
@@ -63,7 +60,6 @@ const UploadForm = (props) => {
   const [labelId, setLabelId] = useState('');
   const [genre, setGenre] = useState('');
   const [isPublic, setIsPublic] = useState(true);
-  const [loading, setLoading] = useState(false);
   
   let location = useLocation();
 
@@ -72,7 +68,6 @@ const UploadForm = (props) => {
     const data = new FormData()
     data.append('file', files[0])
     data.append('upload_preset', 'greyscale_album')
-    setLoading(true)
     const res = await fetch(
       `${process.env.REACT_APP_CLOUDINARY_URL}/image/upload`,
       {
@@ -82,7 +77,6 @@ const UploadForm = (props) => {
     )
     let file = await res.json()
     file = await file.secure_url
-    setLoading(false)
     return file
   }
 
@@ -91,7 +85,6 @@ const UploadForm = (props) => {
     const data = new FormData()
     data.append('file', files[0])
     data.append('upload_preset', 'greyscale_music')
-    setLoading(true)
     const res = await fetch(
       `${process.env.REACT_APP_CLOUDINARY_URL}/raw/upload`,
       
@@ -105,7 +98,7 @@ const UploadForm = (props) => {
       return file
   }
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const music = await uploadMusic();

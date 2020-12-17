@@ -38,9 +38,9 @@ featuring a minimal, easy-to-use interface, greyscale offers artists and bands a
 
 ## code snippets
 
-![Randomization for prompt](./public/randomization-for-prompt.png) Mario Carbonell
+![setting up search with operators](./public/snippets/backend-operators.png)
 
-![Comments](./public/comments.png) Devin Blair
+![using useLocation in conditional](public/snippets/uselocation-workaround.png)
 
 
 ## personal links
@@ -57,10 +57,10 @@ i am extremely grateful to Brock, James, Michael, Jacob, Uyen, David, and Mario.
 to the reader, thank you for taking the time to check out this repo. :)
 
 
-## thanks
-<!-- update these! -->
-[JavaScript in Plain English](https://medium.com/javascript-in-plain-english)
+## references
 
-[Learn With PARAM](https://learnwithparam.com/blog/how-to-pass-props-to-state-properly-in-react-hooks/)
+[Context with Hooks](https://codesandbox.io/s/context-with-hooks-forked-gbci6?file=/src/context/UsersContext.js)
 
-[Learn With PARAM](https://learnwithparam.com/blog/how-to-pass-props-to-state-properly-in-react-hooks/)
+[Convert seconds to minutes and seconds using JavaScript](https://code.labstack.com/HVdZZYqH)
+
+[audio example CodeSandbox](https://codesandbox.io/s/vigorous-rosalind-89qf6)

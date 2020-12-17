@@ -1,11 +1,10 @@
 import { Card,
         CardMedia,
-        Grid,
         IconButton,
         makeStyles, 
         Typography,
       } from '@material-ui/core';
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UploadModel from '../models/upload';
 import { UserContext } from './userContext';
 import { MusicContext } from './musicContext';
@@ -79,8 +78,6 @@ const useStyles = makeStyles((theme) => ({
 
 const UserMusic = (props) => {
   const classes = useStyles();
-
-  const Ref = useRef();
 
   const { user, currentUser} = useContext(UserContext);
   const { setIsPaused,

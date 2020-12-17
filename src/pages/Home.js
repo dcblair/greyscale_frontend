@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import ExUploads from '../components/ExUploads';
 import { UserContext } from '../components/userContext';

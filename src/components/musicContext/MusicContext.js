@@ -1,6 +1,5 @@
 import React, { createContext,
               useEffect,
-              useRef,
               useState
             } from "react";
 import UploadModel from "../../models/upload";
@@ -8,7 +7,6 @@ import UploadModel from "../../models/upload";
 export const Context = createContext({});
 
 export const Provider = ({ children }) => {
-  const Ref = useRef();
 
   const [number, setNumber] = useState(0);
   const [upload, setUpload] = useState('');
