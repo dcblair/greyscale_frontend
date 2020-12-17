@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: 10,
+    marginBottom: 15,
     alignItems: 'center',
     background: '#6D6D6D',
     [theme.breakpoints.down('sm')]: {

@@ -5,7 +5,6 @@
 featuring a minimal, easy-to-use interface, greyscale offers artists and bands a platform for sharing their music without getting carried away with the details.
 
 
-
 ## technologies used
 
 * React.js
@@ -15,8 +14,18 @@ featuring a minimal, easy-to-use interface, greyscale offers artists and bands a
 * Node.js
 
 
-## getting started
+## dependencies
 
+* react
+* react-router-dom
+* material ui-icons
+* material ui-core
+* material ui-styles
+
+
+## planning documents
+
+refer to my Trello for these:
 [Trello](https://trello.com/b/jx3e5gHV/greyscale)
 
 
