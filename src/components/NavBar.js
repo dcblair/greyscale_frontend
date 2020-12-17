@@ -16,17 +16,17 @@ import UploadDialog from './UploadDialog';
 import UploadForm from './UploadForm';
 
 const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   flexGrow: 1
-  // },
+  root: {
+    flexGrow: 1
+  },
   appBar: {
-    background: '#B8B8B8',
+    background: '#CCCCCC',
     position: 'sticky'
   },
   iconText: {
     marginLeft: 10,
     marginRight: 20,
-    color: '#fff',
+    color: '#1F1F1F',
     fontWeight: 'bold',
     letterSpacing: 1.2
   },
@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'end',
+  },
+  bar: {
+    textDecoration: 'none'
   }
 }));
 
@@ -83,7 +86,7 @@ const NavBar = (props) => {
                 />
                 <Typography
                   className={ classes.iconText }
-                  variant="h6"
+                  variant="h5"
                   component="body1"
                 >
                   gs
@@ -155,19 +158,27 @@ const NavBar = (props) => {
                 </UploadDialog>
               </>
             ): (
-              <div className={ classes.login }>
+              <>
+              {/* <div className={ classes.login }> */}
                 <Link to={ "/login" }>
                   <Button>
                     login
                   </Button>
                 </Link>
-                <Typography variant="h4" component="body1"> | </Typography>
+                <Typography 
+                  className={ classes.bar } 
+                  variant="h4"
+                  component="body1"
+                > 
+                  | 
+                </Typography>
                 <Link to={ "/register" }>
                   <Button>
                     register
                   </Button>
                 </Link>
-              </div>
+              {/* </div> */}
+              </>
             )}
         </Toolbar>
       </AppBar>

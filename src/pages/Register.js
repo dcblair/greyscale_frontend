@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(2),
     marginLeft: theme.spacing(7),
     textAlign: 'left'
   },

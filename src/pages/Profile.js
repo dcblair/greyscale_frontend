@@ -10,20 +10,69 @@ import React, { useContext, useState } from 'react';
 import UserModel from '../models/user';
 import { UserContext } from '../components/userContext';
 import ConfirmDialog from '../components/ConfirmDialog';
+import '../styles.css';
+
 
 const useStyles = makeStyles((theme) => ({
-  field: {
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 'auto'
+  },
+  form: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(2),
+      maxWidth: '20vh',
+      display: 'flex',
+      flexDirection: 'column',
+      margin: 'auto'
+    },
+  },
+  paper: {
+    color: '#000',
+    margin: theme.spacing(3),
     width: 300,
     [theme.breakpoints.down('sm')]: {
-      width: 300,
+      width: 320,
     },
     [theme.breakpoints.up('md')]: {
-      width: 400,
+      width: 600,
+      typography: {
+        letterSpacing: 2,
+        fontSize: 20
+      }
     },
-    [theme.breakpoints.up('lg')]: {
-      width: 500,
-    }
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    backgroundColor: '#B8B8B8'
   },
+  header: {
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(3),
+    textDecoration: 'none',
+    letterSpacing: 1.5
+  },
+  input: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(1)
+  },
+  text: {
+    marginBottom: theme.spacing(2)
+  },
+  formButton: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(6),
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 6,
+    paddingBottom: 6,
+    borderRadius: 6,
+    backgroundColor: '#e6e6e6'
+  },
+  deleteButton: {
+    marginBottom: theme.spacing(2)
+  }
 }))
 
 const Profile = (props) => {
@@ -77,14 +126,16 @@ const Profile = (props) => {
   }
 
   return (
-    <div>
+    <Grid
+      className={ classes.root }
+      container
+      spacing={0}
+      style={{ minHeight: "50vh" }}
+    >
+      <Grid item>
         <Paper
           className={ classes.paper }
           elevation={1}
-          style={{
-          display:"inline-block",
-          textAlign: "center",
-          }}
         >
           <Grid
             container
@@ -92,55 +143,55 @@ const Profile = (props) => {
             justify="center"
             alignItems="center"
           >
-          <Typography>
-            { user && user.artistName }
+          <Typography variant="h5" component="h1" className={ classes.header }>
+            profile
           </Typography>
 
             <form
-                noValidate 
-                autoComplete="off"
-                onSubmit={ handleSubmit }
+              className={ classes.form }
+              noValidate 
+              autoComplete="off"
+              onSubmit={ handleSubmit }
             >
 
               <div aria-label="artist name textfield">
                 <TextField
-                  className={ classes.field }
+                  className="textField"
+                  Props={{className: 'textField'}}
                   id="outlined-multiline-static"
                   label="artist name"
                   type="text"
                   value={ artistName }
                   defaultValue={ user && user.artistName }
-                  onInput={ e => setArtistName(e.target.value) }
+                  onInput={ (e) => setArtistName(e.target.value) }
                   variant="outlined" 
                 />
               </div>
 
-              <Typography variant="body1">profile picture</Typography>
               <Input
+                className={ classes.input }
                 type="file"
                 name="file"
                 placeholder="upload profile picture"
-                onChange={ e => { setImage(e.target.files) } }
+                onChange={ (e) => setImage(e.target.files) }
               />
+
+              <Typography variant="body1" component="h6" className={ classes.text }>
+                profile picture
+              </Typography>
 
               <Button
                 type="submit"
-                className={ classes.button  }
+                className={ classes.formButton  }
               >
                 submit
               </Button>
             </form>
 
-            { loading ? (
-              <Typography>loading...</Typography>
-            ): (
-              <>
-              <img src={ image && image } alt="profile picture" style={{ width: "200px" }}/>
-              </>
-            )
-            }
-
-            <Button aria-label="delete" onClick={ () => setConfirmOpen(true) }>
+            <Button
+              aria-label="delete"
+              className={ classes.deleteButton }
+              onClick={ () => setConfirmOpen(true) }>
               delete account
             </Button>
             <ConfirmDialog
@@ -151,10 +202,10 @@ const Profile = (props) => {
             >
               are you sure you want to delete your account?
             </ConfirmDialog>
-            
           </Grid>
         </Paper>
-    </div>
+      </Grid>
+    </Grid>
   )
 }
 

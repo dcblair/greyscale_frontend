@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(2),
     marginLeft: theme.spacing(7),
     textAlign: 'left'
   },
@@ -101,7 +101,7 @@ const Login = (props) => {
     >
       <Grid item>
         <Paper className={ classes.paper }>
-          <Typography variant="h3" component="h1" className={ classes.header }>
+          <Typography variant="h4" component="h1" className={ classes.header }>
             login
           </Typography>
           <form className={ classes.form } noValidate autoComplete="off" onSubmit={ handleSubmit }>

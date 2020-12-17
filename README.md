@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# greyscale
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## introduction
 
-## Available Scripts
+featuring a minimal, easy-to-use interface, greyscale offers artists and bands a platform for sharing their music without getting carried away with the details.
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## technologies used
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* React.js
+* Material-UI
+* Postgres
+* Express
+* Node.js
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## getting started
 
-### `npm run build`
+[Trello](https://trello.com/b/jx3e5gHV/greyscale)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## unsolved problems
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* progress bar timing (issues with Math.ciel() in React)
+* progress bar functionality (issues with Math.ciel() in React)
+* play functionality has some limitations.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## future enhancements
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* fully functional progress bar
+* tags that can be attached to uploads
+* more varied responsiveness
+* better error handling
+* scroll-based events
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## code snippets
 
-## Learn More
+![Randomization for prompt](./public/randomization-for-prompt.png) Mario Carbonell
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![Comments](./public/comments.png) Devin Blair
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## personal links
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+[LinkedIn](https://www.linkedin.com/in/devin-blair/) 
 
-### Analyzing the Bundle Size
+[GitHub](https://github.com/dcblair)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+## thanks
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+i am extremely grateful to Brock, James, Michael, Jacob, Uyen, David, and Mario. i appreciate all of your time, patience, and support.
 
-### Advanced Configuration
+to the reader, thank you for taking the time to check out this repo. :)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## thanks
+<!-- update these! -->
+[JavaScript in Plain English](https://medium.com/javascript-in-plain-english)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+[Learn With PARAM](https://learnwithparam.com/blog/how-to-pass-props-to-state-properly-in-react-hooks/)
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[Learn With PARAM](https://learnwithparam.com/blog/how-to-pass-props-to-state-properly-in-react-hooks/)

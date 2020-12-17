@@ -2,6 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles'
 
 const chivo = "'Chivo', sans-serif";
 const mont = "'Montserrat', sans-serif";
+const noto = "'Noto Sans JP', sans-serif";
 
 const theme = createMuiTheme({
   palette: {
@@ -19,14 +20,22 @@ const theme = createMuiTheme({
     textAlign: 'right'
   },
   typography: {
-    h3: {
-      fontFamily: chivo,
+    h4: {
+      fontFamily: mont,
       fontWeight: 400,
-      fontStyle: "normal"
+      textDecoration: "underline",
+      letterSpacing: 1.2
+    },
+    h5: {
+      fontFamily: chivo
+    },
+    h6: {
+      fontFamily: noto,
+      fontWeight: 300
     },
     body1: {
       fontFamily: mont,
-      fontSize: 13
+      fontSize: 14
     }
   },
   overrides: {
@@ -34,6 +43,7 @@ const theme = createMuiTheme({
       root: {
         color: '#000',
         textTransform: 'none',
+        fontFamily: noto,
         fontSize: 15,
       }
     },
