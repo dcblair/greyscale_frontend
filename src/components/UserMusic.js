@@ -98,6 +98,7 @@ const UserMusic = (props) => {
   const handleUploadDelete = async (uploadId) => {
     UploadModel.delete(user, uploadId)
     window.location.reload()
+    // use filter(users => )
   }
 
   const selectTrack = (uploadName) => {
